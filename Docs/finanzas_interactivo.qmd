@@ -16,8 +16,7 @@ jupyter: python3
 
 ### Profesor: Eduardo Selim Martínez Mayorga
 
-## Diagrama de flujo del notebook (Quarto)
-
+## Diagrama de flujo del notebook 
 > Da click en una función para ir a su ficha (inputs → proceso → outputs).
 
 ```{mermaid}
