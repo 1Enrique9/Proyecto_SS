@@ -1,0 +1,1573 @@
+---
+title: "Finanzas"
+author: "Eduardo Selim Martínez Mayorga"
+date: "2022-05-10"
+format:
+  html:
+    code-fold: true
+    toc: true
+    toc-depth: 3
+jupyter: python3
+---
+
+# Finanzas
+
+## Proyecto individual
+
+### Profesor: Eduardo Selim Martínez Mayorga
+
+## Diagrama de flujo del notebook (Quarto)
+
+> Da click en una función para ir a su ficha (inputs → proceso → outputs).
+
+```{mermaid}
+flowchart TB
+
+  U["Inputs\n- ticker(s)\n- fechas\n- num_sims, dt_days, T_days\n- K, r, grados_pasado\n- (port) w\n- (binomial) T_years, N"]
+
+  subgraph A["A) Datos + Estimadores"]
+    A1[get_close]
+    A2[returns_from_close]
+    A3[ultimo_precio]
+    A4[calcula_media]
+    A5[calcula_desv_est]
+    A6[calcula_correlacion]
+  end
+
+  subgraph B["B) Longstaff–Schwartz (1 activo)"]
+    B1[genera_simulaciones_individual]
+    B2[genera_df_simulaciones]
+    B3[ejercicio_americana_LS]
+    B4[obtiene_estrategia_LS]
+    B5[calcula_precio_americana]
+    B6[plot_hist_ejercicio]
+  end
+
+  subgraph C["C) Longstaff–Schwartz (Portafolio)"]
+    C1[genera_simulaciones_correlacionadas]
+    C2[genera_df_portafolio]
+    C3[ejercicio_americana_LS_port]
+    C4[obtiene_estrategia_LS_port]
+    C5[calcula_precio_americana_port]
+    C6[plot_hist_ejercicio]
+  end
+
+  subgraph D["D) Árbol Binomial (Americana)"]
+    D1[arbol_americano]
+    D2[arbol_americano_portafolio]
+  end
+
+  U --> A1 --> A2
+  A1 --> A3
+  A2 --> A4
+  A2 --> A5
+  A2 --> A6
+
+  A3 --> B1
+  A4 --> B1
+  A5 --> B1
+  B1 --> B2 --> B3 --> B4 --> B5 --> B6
+
+  A6 --> C1
+  A4 --> C1
+  A5 --> C1
+  A3 --> C1
+  C1 --> C2 --> C3 --> C4 --> C5 --> C6
+
+  U --> D1
+  U --> D2
+
+  click A1 "#func-get-close" "Detalle: get_close"
+  click A2 "#func-returns" "Detalle: returns_from_close"
+  click A3 "#func-s0" "Detalle: ultimo_precio"
+  click A4 "#func-mu" "Detalle: calcula_media"
+  click A5 "#func-sigma" "Detalle: calcula_desv_est"
+  click A6 "#func-rho" "Detalle: calcula_correlacion"
+
+  click B1 "#func-sim-single" "Detalle: genera_simulaciones_individual"
+  click B3 "#func-ls-single" "Detalle: ejercicio_americana_LS"
+  click B5 "#func-price-single" "Detalle: calcula_precio_americana"
+
+  click C1 "#func-sim-corr" "Detalle: genera_simulaciones_correlacionadas"
+  click C3 "#func-ls-port" "Detalle: ejercicio_americana_LS_port"
+  click C5 "#func-price-port" "Detalle: calcula_precio_americana_port"
+
+  click D1 "#func-bin-single" "Detalle: arbol_americano"
+  click D2 "#func-bin-port" "Detalle: arbol_americano_portafolio"
+```
+
+---
+
+# Librerías
+
+```{python}
+import numpy as np
+import pandas as pd
+import yfinance as yf
+import math
+from functools import lru_cache
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.linear_model import LinearRegression
+import matplotlib.pyplot as plt
+```
+
+```{python}
+TRADING_DAYS = 252  # días hábiles por año
+```
+
+# Descargar datos de Yahoo Finance
+
+## get_close {#func-get-close}
+**Recibe:** `tickers`, `fecha_inicio`, `fecha_fin`  
+**Hace:** descarga precios de Yahoo Finance y devuelve un `DataFrame` con columnas=tickers.
+```{python}
+
+@lru_cache(maxsize=128)
+def _download_close_cached(tickers_tuple, start, end, auto_adjust=True):
+    tickers = list(tickers_tuple)
+
+    data = yf.download(
+        tickers,
+        start=start,
+        end=end,
+        progress=False,
+        auto_adjust=auto_adjust,
+        group_by="column",
+    )
+
+    # Caso MultiIndex
+    if isinstance(data.columns, pd.MultiIndex):
+        if "Close" in data.columns.get_level_values(0):
+            close = data["Close"].copy()
+        elif "Adj Close" in data.columns.get_level_values(0):
+            close = data["Adj Close"].copy()
+        else:
+            raise KeyError("No encontré 'Close' ni 'Adj Close' en columnas MultiIndex.")
+
+    # Caso SingleIndex
+    else:
+        if "Close" in data.columns:
+            close = data[["Close"]].copy()
+        elif "Adj Close" in data.columns:
+            close = data[["Adj Close"]].copy()
+        else:
+            raise KeyError("No encontré 'Close' ni 'Adj Close' en columnas.")
+
+        if len(tickers) == 1:
+            close.columns = [tickers[0]]
+
+    if isinstance(close, pd.Series):
+        close = close.to_frame(name=tickers[0])
+
+    close = close.dropna(how="all")
+    return close
+
+
+def get_close(tickers, fecha_inicio, fecha_fin, auto_adjust=True):
+    if isinstance(tickers, str):
+        tickers = [tickers]
+
+    close = _download_close_cached(tuple(tickers), fecha_inicio, fecha_fin, auto_adjust=auto_adjust)
+
+    missing = [t for t in tickers if t not in close.columns]
+    if missing:
+        raise KeyError(f"Faltan columnas para tickers: {missing}. Columnas disponibles: {list(close.columns)}")
+
+    return close[tickers]
+```
+
+## returns_from_close {#func-returns}
+**Recibe:** `close: DataFrame`  
+**Hace:** calcula retornos log o simples.  
+**Devuelve:** `DataFrame` de retornos.
+
+```{python}
+def returns_from_close(close: pd.DataFrame, kind="log"):
+    close = close.dropna(how="any")
+    if kind == "log":
+        rets = np.log(close).diff()
+    else:
+        rets = close.pct_change()
+    return rets.dropna(how="any")
+```
+
+# Estimadores 
+
+## ultimo_precio {#func-s0}
+
+**Recibe:**
+- `ticker` (`str`): símbolo (ej. `"AAPL"`)
+- `fecha_inicio` (`str`): fecha inicio `"YYYY-MM-DD"`
+- `fecha_fin` (`str`): fecha fin `"YYYY-MM-DD"`
+
+**Qué hace:**
+- Descarga la serie de precios de cierre (`Close` o `Adj Close`, según `get_close`) del ticker en el rango de fechas.
+- Toma el **último valor disponible** de la columna del ticker.
+
+**Devuelve:**
+- `float` con el último precio observado: $S_0$.
+```{python}
+def ultimo_precio(ticker, fecha_inicio, fecha_fin):
+    close = get_close(ticker, fecha_inicio, fecha_fin)[ticker]
+    return float(close.iloc[-1])
+```
+
+## calcula_media {#func-mu}
+**Recibe:**
+- ticker (str): símbolo (ej. "AAPL")
+- `fecha_inicio` (`str`): fecha inicio `"YYYY-MM-DD"`
+- `fecha_fin` (`str`): fecha fin `"YYYY-MM-DD"`
+- `kind` (str, default "log"): tipo de retorno: `log`: $r_t = \log(P_t) - \log(P_{t-1})$
+
+**Qué hace:**
+- Descarga precios del activo en el rango.
+- Construye la serie de retornos diarios con `returns_from_close`.
+- Calcula la media muestral de esos retornos.
+
+**Devuelve:**
+- `float` con la media diaria: $\mu_{\text{daily}} = \frac{1}{n}\sum_{t=1}^n r_t$.
+```{python}
+def calcula_media(ticker, fecha_inicio, fecha_fin, kind="log"):
+    close = get_close(ticker, fecha_inicio, fecha_fin)[ticker]
+    rets = returns_from_close(close.to_frame("x"), kind=kind)["x"]
+    return float(rets.mean())  # media por día 
+```
+
+## calcula_desv_est {#func-sigma}
+**Recibe:**
+- ticker (str): símbolo (ej. "AAPL")
+- `fecha_inicio` (`str`): fecha inicio `"YYYY-MM-DD"`
+- `fecha_fin` (`str`): fecha fin `"YYYY-MM-DD"`
+- `kind` (str, default "log"): tipo de retorno: `log`: $r_t = \log(P_t) - \log(P_{t-1})$
+- `ddof` (int, default 1): grados de libertad para la desviación estándar:
+  ddof=1 → muestral (recomendado para estimación)
+  ddof=0 → “poblacional” (divide entre $n$)
+
+**Qué hace:**
+- Descarga precios.
+- Calcula retornos diarios.
+- Calcula la desviación estándar de retornos (por default, muestral).
+
+**Devuelve:**
+- `float` con la volatilidad diaria estimada: $\sigma_{\text{daily}}$.
+```{python}
+def calcula_desv_est(ticker, fecha_inicio, fecha_fin, kind="log", ddof=1):
+    close = get_close(ticker, fecha_inicio, fecha_fin)[ticker]
+    rets = returns_from_close(close.to_frame("x"), kind=kind)["x"]
+    return float(rets.std(ddof=ddof))  # sigma por día 
+```
+
+## calcula_correlacion {#func-rho}
+**Recibe:**
+- ticker (str): símbolo (ej. "AAPL")
+- `fecha_inicio` (`str`): fecha inicio `"YYYY-MM-DD"`
+- `fecha_fin` (`str`): fecha fin `"YYYY-MM-DD"`
+- `kind` (str, default "log"): tipo de retorno (log o simple)
+
+**Qué hace:**
+- Descarga precios de ambos tickers.
+- Construye retornos diarios alineados por fecha (esto es importante: correlación requiere observaciones pareadas).
+- Calcula la correlación muestral de Pearson entre las dos series de retornos.
+
+**Devuelve:**
+- `float` con la correlación: $\rho \in [-1,1]$.
+```{python}
+def calcula_correlacion(ticker1, ticker2, fecha_inicio, fecha_fin, kind="log"):
+    close = get_close([ticker1, ticker2], fecha_inicio, fecha_fin)[[ticker1, ticker2]]
+    rets = returns_from_close(close, kind=kind)
+    return float(rets.corr().iloc[0, 1])
+```
+
+# PAYOFFS (sin globals)
+
+```{python}
+def payoff_call(S, K):
+    return np.maximum(S - K, 0.0)
+
+def payoff_put(S, K):
+    return np.maximum(K - S, 0.0)
+```
+
+# SIMULACIÓN GBM (1 activo) CON MU HISTÓRICA (P)
+
+El modelo buscamos simular es el movimiento browniano geométrico (GBM):
+
+$ dS_t = \mu S_t\,dt + \sigma S_t\,dW_t. $
+
+La discretización para un paso de tamaño $\Delta t$ es:
+
+$ S_{t+\Delta t} = S_t \exp\!\left( (\mu - \tfrac{1}{2}\sigma^2)\Delta t + \sigma\sqrt{\Delta t}\,Z \right), \qquad Z\sim N(0,1). $
+
+Por lo que tenemos dos factores indispensables:
+- El **drift** se multiplica por $\Delta t$.
+- El **término aleatorio** (browniano) se multiplica por $\sqrt{\Delta t}$.
+
+En el código se construye $W$ como una suma acumulada de normales estándar, $W=\sum Z$, y luego se usa
+$ S \approx S_0\exp(\text{drift} + \sigma W) $,
+lo cual equivale a asumir implícitamente $\Delta t = 1$ (un paso de “tamaño 1”) y además deja el parámetro `dt` sin afectar realmente la escala del proceso. Esto puede mezclar unidades (por ejemplo, interpretar $T=252/2$ como días mientras el proceso usa pasos de tamaño 1 sin conversion).
+
+La corrección consiste en introducir explícitamente el tamaño del paso:
+si el paso es de `dt_days` días y se trabaja en años, entonces
+$ \Delta t = \frac{\text{dt\_days}}{252}. $
+Con esto, la simulación correcta usa:
+$ S_{k+1} = S_k \exp\!\left( (\mu - \tfrac{1}{2}\sigma^2)\Delta t + \sigma\sqrt{\Delta t}\,Z_k \right). $
+
+Así, al cambiar `dt_days` o el horizonte `T_days`, el modelo se escala correctamente y las unidades de $\mu$, $\sigma$ y el descuento (por ejemplo con $e^{-r\Delta t}$) quedan consistentes.
+
+## genera_simulaciones_individual {#func-sim-single}
+Simula GBM con $\Delta t=\tfrac{dt\_days}{252}$ y drift $\mu$ histórica.
+
+**Recibe:**
+- `ticker1` (`str`): símbolo del activo (ej. `"AAPL"`)
+- `fecha_inicio` (`str`): `"YYYY-MM-DD"`
+- `fecha_fin` (`str`): `"YYYY-MM-DD"`
+- `num_sims` (`int`): número de trayectorias simuladas
+- `dt_days` (`int | float`): tamaño del paso en **días** (ej. `1`)
+- `T_days` (`int | float`): horizonte total en **días** (ej. `252/2`)
+- `returns_kind` (`str`, default `"log"`): tipo de retorno usado para estimar $\mu$ y $\sigma$
+- `seed` (`int | None`): semilla para reproducibilidad
+
+**Qué hace:**
+1. Descarga precios con `get_close`.
+2. Calcula retornos diarios con `returns_from_close`.
+3. Estima parámetros históricos:
+   - $\mu_{daily} =$ media diaria de retornos
+   - $\sigma_{daily} =$ desv. estándar diaria (muestral, `ddof=1`)
+4. Convierte a unidades anuales y define el paso en años:
+   - $\Delta t = dt\_days/252$
+5. Genera una matriz de normales $Z$ de tamaño `(num_sims, steps)` y construye incrementos logarítmicos.
+6. Acumula $\log S$ y regresa $S$ en niveles, incluyendo el valor inicial $S_0$.
+
+**Devuelve:**
+- `numpy.ndarray` de tamaño `(num_sims, steps+1)`:
+  - primera columna = $S_0$
+  - columnas siguientes = precios simulados en cada paso
+
+```{python}
+def genera_simulaciones_individual(
+    ticker1, fecha_inicio, fecha_fin,
+    num_sims, dt_days, T_days,
+    returns_kind="log",
+    seed=None
+):
+    """
+    Simula GBM con drift = mu histórica (medida P).
+    - dt_days: paso en días (1 diario)
+    - T_days: horizonte total en días (ej. 252/2)
+    Retorna array (num_sims, steps+1) incluyendo S0.
+    """
+    rng = np.random.default_rng(seed)
+
+    close = get_close(ticker1, fecha_inicio, fecha_fin)[ticker1]
+    rets = returns_from_close(close.to_frame("x"), kind=returns_kind)["x"]
+
+    mu_daily = float(rets.mean())
+    sig_daily = float(rets.std(ddof=1))
+    S0 = float(close.iloc[-1])
+
+    steps = int(T_days / dt_days)
+    dt = dt_days / TRADING_DAYS  # años por paso
+
+    # Se anualiza para usar fórmula continua anual
+    mu_annual = mu_daily * TRADING_DAYS
+    sig_annual = sig_daily * np.sqrt(TRADING_DAYS)
+
+    Z = rng.normal(size=(num_sims, steps))
+    inc = (mu_annual - 0.5 * sig_annual**2) * dt + sig_annual * np.sqrt(dt) * Z
+
+    logS = np.log(S0) + np.cumsum(inc, axis=1)
+    S = np.exp(logS)
+
+    S = np.concatenate([np.full((num_sims, 1), S0), S], axis=1)
+    return S
+
+def genera_df_simulaciones(ticker1, fecha_inicio, fecha_fin, num_sims, dt_days, T_days,
+                          returns_kind="log", seed=None):
+    trayectorias = genera_simulaciones_individual(
+        ticker1, fecha_inicio, fecha_fin,
+        num_sims, dt_days, T_days,
+        returns_kind=returns_kind, seed=seed
+    )
+    steps = trayectorias.shape[1] - 1
+    df = pd.DataFrame(trayectorias[:, 1:])
+    df.columns = [str(i) for i in range(1, steps + 1)]
+    return df
+```
+
+# LONGSTAFF–SCHWARTZ (1 activo)
+En esta sección implementamos Longstaff–Schwartz (LS) para valuar (o aproximar) una opción Americana usando simulación Monte Carlo. La idea central es:
+
+1) Simulas trayectorias $S_{t}$.
+2) Vas **hacia atrás** en el tiempo (backward induction).
+3) En cada tiempo decides si conviene **ejercer ahora** (valor intrínseco) o **continuar** (valor esperado de seguir), donde el valor de continuación se aproxima con una regresión sobre el estado $S_t$.
+
+En LS, en cada tiempo $t$ comparamos:
+
+- **Intrínseco:** $g(S_t)$ (payoff inmediato).
+- **Continuación:** $\mathbb{E}\left[e^{-r\Delta t}V_{t+\Delta t}\mid S_t\right]$ (aproximado por regresión).
+
+Ejercemos si:
+$ g(S_t) \ge \widehat{C}(S_t). $
+
+## ejercicio_americana_LS {#func-ls-single}
+**Recibe:**
+- `ticker1` (`str`), `fecha_inicio` (`str`), `fecha_fin` (`str`)
+- `num_sims` (`int`): número de trayectorias simuladas
+- `dt_days` (`int|float`): paso en días
+- `T_days` (`int|float`): horizonte total en días
+- `funcion_payoff` (`callable`): función vectorizada tipo `funcion_payoff(S, K)` que regresa payoff
+- `K` (`float`): strike
+- `grados_pasado` (`int`): grado del polinomio en la regresión (bases polinomiales)
+- `r` (`float`): tasa libre de riesgo anual (continua)
+- `returns_kind` (`str`): cómo se estiman retornos para simulación
+- `seed` (`int|None`): semilla aleatoria
+- `min_itm` (`int`): mínimo de puntos “in the money” para ajustar regresión (evita regresiones inestables)
+
+**Qué hace:**
+1. **Simula** trayectorias y crea `df` con precios por paso (sin $S_0$):  
+   `df` tiene tamaño `(num_sims, steps)` y columnas `"1"... "steps"`.
+
+2. Convierte a `numpy` para mayor eficiencia: `paths = df.to_numpy()`.
+
+3. Define el tamaño del paso en años:
+   $ \Delta t = \frac{dt\_days}{252} $  
+   y el factor de descuento por un paso:
+   $ disc = e^{-r\Delta t}. $
+
+4. Inicializa un indicador:
+   - `alive[i] = True` significa que la trayectoria `i` **aún no ha ejercido**.
+   - Si una trayectoria ejerce en algún tiempo, se marca `alive=False` para que ya no “vuelva a ejercer” después (porque una americana se ejerce una sola vez).
+
+5. Define `cf` (“cashflows”):
+   - `cf[i]` representa el **flujo que esa trayectoria recibiría** si se mantiene la política óptima desde el tiempo actual hacia adelante.
+   - Se inicia en el vencimiento con el payoff final:
+     $ cf = g(S_T). $
+
+6. Recorre hacia atrás `t = steps-1 ... 1`:
+   - Descuenta el flujo futuro un paso:
+     $ cf\_{disc} = cf \cdot disc. $
+   - Obtiene el estado en ese tiempo:
+     $ S_t = paths[:, t-1]. $
+   - Calcula intrínseco:
+     $ intrinsic = g(S_t). $
+   - Define elegibles para regresión:
+     - Deben estar vivos (`alive=True`) y estar ITM (`intrinsic>0`).
+     Esto es estándar en LS: solo haces regresión con estados donde hay decisión real (si intrinsic=0 no hay incentivo a ejercer).
+
+7. Si hay pocos elegibles (`eligible.sum() < min_itm`):
+   - No ajusta regresión.
+   - Solo avanza descontando: `cf = cf_disc`.
+   - Guarda lista vacía de ejercicio en este tiempo.
+
+8. Si sí hay suficientes elegibles:
+   - Ajusta regresión para aproximar continuación:
+     - Entradas `X = S_t[eligible]`
+     - Salidas `Y = cf_disc[eligible]`
+     - Bases polinomiales de grado `grados_pasado`
+     - Ajusta `LinearRegression` y predice:
+       $ \widehat{C}(S_t) $
+   - Decide ejercicio:
+     - `ex = intrinsic >= cont`
+   - Para los que ejercen:
+     - Fija su cashflow a intrínseco: `cf[idx_ex] = intrinsic[idx_ex]`
+     - Los “mata” para tiempos anteriores: `alive[idx_ex] = False`
+
+9. Va guardando en `lst` los índices que ejercen en cada tiempo (en el orden en que corre hacia atrás).
+
+```{python}
+def ejercicio_americana_LS(
+    ticker1, fecha_inicio, fecha_fin,
+    num_sims, dt_days, T_days,
+    funcion_payoff, K, grados_pasado,
+    r,
+    returns_kind="log",
+    seed=None,
+    min_itm=25
+):
+    """
+    Devuelve [lst, df] como tú.
+    - df: sims x steps (sin S0) con columnas "1"... "steps"
+    - lst: lista de listas de índices ejercidos (se arma hacia atrás como tu lógica)
+    """
+    df = genera_df_simulaciones(
+        ticker1, fecha_inicio, fecha_fin,
+        num_sims, dt_days, T_days,
+        returns_kind=returns_kind, seed=seed
+    )
+
+    steps = df.shape[1]
+    dt = dt_days / TRADING_DAYS
+    disc = np.exp(-r * dt)
+
+    paths = df.to_numpy()
+    alive = np.ones(num_sims, dtype=bool)
+
+    # payoff al vencimiento
+    cf = funcion_payoff(paths[:, -1], K).astype(float)
+
+    lst = []
+    lst.append(np.where((cf > 0) & alive)[0].tolist())
+
+    # backward t = steps-1 ... 1
+    for t in range(steps - 1, 0, -1):
+        cf_disc = cf * disc
+        S_t = paths[:, t - 1]
+        intrinsic = funcion_payoff(S_t, K).astype(float)
+        eligible = alive & (intrinsic > 0)
+
+        if eligible.sum() < min_itm:
+            cf = cf_disc
+            lst.append([])
+            continue
+
+        X = S_t[eligible].reshape(-1, 1)
+        Y = cf_disc[eligible].reshape(-1, 1)
+
+        polin = PolynomialFeatures(degree=grados_pasado, include_bias=True)
+        Xp = polin.fit_transform(X)
+
+        reg = LinearRegression().fit(Xp, Y)
+        cont = reg.predict(Xp).flatten()
+
+        ex = intrinsic[eligible] >= cont
+        idx_eligible = np.where(eligible)[0]
+        idx_ex = idx_eligible[ex]
+
+        cf = cf_disc.copy()
+        cf[idx_ex] = intrinsic[idx_ex]
+        alive[idx_ex] = False
+
+        lst.append(idx_ex.tolist())
+
+    return [lst, df]
+```
+
+## obtiene_estrategia_LS {#func-strategy}
+**Recibe:**
+- Los mismos parámetros que ejercicio_americana_LS, excepto `min_itm` (aquí no se usa).
+- Internamente llama a `ejercicio_americana_LS(...)`.
+**Qué hace**
+
+1.  Obtiene `lst` y `df`.
+
+2. Invierte `lst` para volverlo cronológico (de $t=1$ hacia $t=steps$).
+
+3. Construye una matriz binaria `df_estrategia` de tamaño `(num_sims, steps)`:
+
+   -  `df_estrategia[i, j] = 1` si la trayectoria `i` ejerció en el tiempo `j`.
+
+4. Para cada trayectoria i:
+
+- Si nunca ejerció, guarda `-1`.
+
+- Si ejerció, guarda el primer índice temporal donde aparece un `1`.
+
+
+**Devuelve:**
+`[lista_fechas_ejercicio, df]` donde:
+
+    - `lista_fechas_ejercicio[i]` es el primer tiempo donde la simulación i ejerce (o -1 si no ejerció).
+    
+    - `df` son las trayectorias simuladas (sin $S_0$).
+
+
+```{python}
+def obtiene_estrategia_LS(
+    ticker1, fecha_inicio, fecha_fin,
+    num_sims, dt_days, T_days,
+    funcion_payoff, K, grados_pasado,
+    r,
+    returns_kind="log",
+    seed=None
+):
+    lst, df = ejercicio_americana_LS(
+        ticker1, fecha_inicio, fecha_fin,
+        num_sims, dt_days, T_days,
+        funcion_payoff, K, grados_pasado,
+        r=r, returns_kind=returns_kind, seed=seed
+    )
+
+    num_cols = df.shape[1]
+    lst = list(reversed(lst))  # orden temporal
+
+    df_estrategia = np.zeros((num_sims, num_cols), dtype=int)
+    for j in range(num_cols):
+        idx = lst[j] if j < len(lst) else []
+        if idx:
+            df_estrategia[idx, j] = 1
+
+    lista_fechas_ejercicio = []
+    for i in range(num_sims):
+        row = df_estrategia[i, :]
+        if row.sum() == 0:
+            lista_fechas_ejercicio.append(-1)
+        else:
+            lista_fechas_ejercicio.append(int(np.argmax(row)))
+
+    return [lista_fechas_ejercicio, df]
+```
+
+## calcula_precio_americana {#func-price-single}
+Esta función toma la **política de ejercicio** que encontró Longstaff–Schwartz (LS) y la convierte en un **precio**: el promedio del payoff descontado al tiempo de ejercicio de cada trayectoria.
+
+---
+
+### Recibe
+- `ticker1` (`str`), `fecha_inicio` (`str`), `fecha_fin` (`str`)
+- `num_sims` (`int`): número de simulaciones
+- `dt_days` (`int|float`): tamaño del paso en **días**
+- `T_days` (`int|float`): horizonte total en **días**
+- `funcion_payoff` (`callable`): payoff vectorizado o escalar, tipo `funcion_payoff(S, K)`
+- `K` (`float`): strike
+- `grados_pasado` (`int`): grado del polinomio para la regresión en LS
+- `r` (`float`): tasa libre de riesgo anual (continua)
+- `returns_kind` (`str`): tipo de retorno (log o simple) usado para simulación
+- `seed` (`int|None`): semilla para reproducibilidad
+
+---
+
+### Qué hace (paso a paso)
+1. Llama a `obtiene_estrategia_LS(...)` para obtener:
+   - `lista_fechas_ejercicio`: lista con el **primer tiempo** (índice) donde cada trayectoria ejercería, o `-1` si no ejerció.
+   - `df`: `DataFrame` con trayectorias simuladas (sin $S_0$), con columnas `"1"... "steps"`.
+
+2. Convierte el paso a años:
+   $$
+   \Delta t = \frac{dt\_days}{252}.
+   $$
+
+3. Para cada trayectoria `i`:
+   - Si `t_idx < 0` (nunca ejerció), asigna payoff 0.
+   - Si sí ejerció:
+     - Toma el precio simulado en el tiempo de ejercicio:  
+       `S_ex = df.iloc[i, t_idx]`
+     - Calcula payoff inmediato `funcion_payoff(S_ex, K)`
+     - Lo descuenta a valor presente con descuento continuo:
+       $$
+       PV_i = g(S_{t_i})\exp(-r \, t_i \Delta t).
+       $$
+
+   **Ojo con** `(t_idx + 1)`:
+   - En `df`, la columna `"1"` representa el **primer paso** después de $S_0$.  
+   - Pero `t_idx` es un índice base 0 (Python):  
+     - `t_idx = 0` corresponde a tiempo **1 paso**.  
+   - Por eso el tiempo real en pasos es `(t_idx + 1)`.
+
+4. Construye `estrategia_ejercicio` para graficar:
+   - Convierte `-1` a `NaN` (para que el histograma ignore “no ejerció”).
+   - Mantiene el índice `t` si sí ejerció.
+
+---
+
+### Devuelve
+- `[precio, estrategia_ejercicio]` donde:
+  - `precio` (`float`) = promedio de los payoffs descontados:
+    $$
+    \hat{V}_0 = \frac{1}{N}\sum_{i=1}^N PV_i
+    $$
+  - `estrategia_ejercicio` (`list[float]`) = lista de índices de ejercicio (o `NaN` si no ejerció), útil para histograma.
+
+---
+```{python}
+def calcula_precio_americana(
+    ticker1, fecha_inicio, fecha_fin,
+    num_sims, dt_days, T_days,
+    funcion_payoff, K, grados_pasado,
+    r,
+    returns_kind="log",
+    seed=None
+):
+    lista_fechas_ejercicio, df = obtiene_estrategia_LS(
+        ticker1, fecha_inicio, fecha_fin,
+        num_sims, dt_days, T_days,
+        funcion_payoff, K, grados_pasado,
+        r=r, returns_kind=returns_kind, seed=seed
+    )
+
+    dt = dt_days / TRADING_DAYS
+
+    payoff_ejercicio = np.zeros(num_sims, dtype=float)
+    for i in range(num_sims):
+        t_idx = lista_fechas_ejercicio[i]
+        if t_idx < 0:
+            payoff_ejercicio[i] = 0.0
+        else:
+            S_ex = float(df.iloc[i, t_idx])
+            payoff_ejercicio[i] = float(funcion_payoff(S_ex, K)) * math.exp(-r * (t_idx + 1) * dt)
+
+    estrategia_ejercicio = [np.nan if t < 0 else t for t in lista_fechas_ejercicio]
+    return [float(np.mean(payoff_ejercicio)), estrategia_ejercicio]
+```
+
+# SIMULACIÓN CORRELACIONADA (2 activos) CON MU HISTÓRICA (P)
+
+Aquí simulamos dos activos $(S_t^{(1)}, S_t^{(2)})$ bajo GBM **correlacionados**, usando parámetros históricos (medida $P$):
+
+\[
+dS_t^{(1)}=\mu_1 S_t^{(1)}dt + \sigma_1 S_t^{(1)} dW_t^{(1)}, \qquad
+dS_t^{(2)}=\mu_2 S_t^{(2)}dt + \sigma_2 S_t^{(2)} dW_t^{(2)},
+\]
+con correlación instantánea
+\[
+\mathrm{Corr}(dW_t^{(1)}, dW_t^{(2)})=\rho.
+\]
+
+---
+
+## genera_simulaciones_correlacionadas {#func-sim-corr}
+
+**Recibe:**
+- `ticker1` (`str`), `ticker2` (`str`)
+- `fecha_inicio` (`str`), `fecha_fin` (`str`)
+- `num_sims` (`int`): número de trayectorias
+- `dt_days` (`int|float`): paso en días
+- `T_days` (`int|float`): horizonte en días
+- `returns_kind` (`str`, default `"log"`): retornos para estimar $\mu$ y $\sigma$
+- `seed` (`int|None`): semilla para reproducibilidad
+
+**Qué hace (paso a paso):**
+1. Descarga precios de ambos activos y calcula retornos diarios alineados:
+   - Estima $\mu_{1,daily}, \sigma_{1,daily}, \mu_{2,daily}, \sigma_{2,daily}$.
+   - Estima $\rho$ como correlación muestral de retornos.
+
+2. Define valores iniciales:
+   \[
+   S_{0,1}=\text{último precio de ticker1}, \quad S_{0,2}=\text{último precio de ticker2}.
+   \]
+
+3. Define unidades (igual que en 1 activo):
+   \[
+   \Delta t = \frac{dt\_days}{252},\qquad
+   \mu_{annual}=252\,\mu_{daily},\qquad
+   \sigma_{annual}=\sqrt{252}\,\sigma_{daily}.
+   \]
+
+4. Construye la correlación con **Cholesky**:
+   - Matriz de correlación objetivo:
+     \[
+     C=\begin{pmatrix}1 & \rho\\ \rho & 1\end{pmatrix}
+     \]
+   - Factor de Cholesky $L$ tal que $C = LL^\top$.
+
+5. Genera normales iid:
+   - `Z ~ N(0, I)` con forma `(num_sims, steps, 2)`.
+
+6. Obtiene normales correlacionadas:
+   - `EZ = Z @ L.T`  
+   entonces cada par $(EZ_1, EZ_2)$ tiene correlación $\rho$.
+
+7. Simula incrementos logarítmicos (GBM exacto):
+   \[
+   \Delta \log S^{(i)} = \left(\mu_i - \tfrac12\sigma_i^2\right)\Delta t + \sigma_i\sqrt{\Delta t}\, \varepsilon_i,
+   \]
+   donde $(\varepsilon_1,\varepsilon_2)$ son las normales correlacionadas.
+
+8. Construye $S_1, S_2$ acumulando y exponenciando, e inserta la columna inicial $S_0$ al principio.
+
+**Devuelve:**
+- `[S1, S2]` donde:
+  - `S1`: `np.ndarray` de tamaño `(num_sims, steps+1)` con $S_{0,1}$ incluido.
+  - `S2`: `np.ndarray` de tamaño `(num_sims, steps+1)` con $S_{0,2}$ incluido.
+
+```{python}
+def genera_simulaciones_correlacionadas(
+    ticker1, ticker2,
+    fecha_inicio, fecha_fin,
+    num_sims, dt_days, T_days,
+    returns_kind="log",
+    seed=None
+):
+    rng = np.random.default_rng(seed)
+
+    close = get_close([ticker1, ticker2], fecha_inicio, fecha_fin)[[ticker1, ticker2]]
+    rets = returns_from_close(close, kind=returns_kind)
+
+    mu1_daily = float(rets[ticker1].mean()); sig1_daily = float(rets[ticker1].std(ddof=1))
+    mu2_daily = float(rets[ticker2].mean()); sig2_daily = float(rets[ticker2].std(ddof=1))
+    rho = float(rets.corr().iloc[0, 1])
+
+    S01 = float(close[ticker1].iloc[-1])
+    S02 = float(close[ticker2].iloc[-1])
+
+    steps = int(T_days / dt_days)
+    dt = dt_days / TRADING_DAYS
+
+    mu1_annual = mu1_daily * TRADING_DAYS
+    mu2_annual = mu2_daily * TRADING_DAYS
+    sig1_annual = sig1_daily * np.sqrt(TRADING_DAYS)
+    sig2_annual = sig2_daily * np.sqrt(TRADING_DAYS)
+
+    C = np.array([[1.0, rho], [rho, 1.0]])
+    L = np.linalg.cholesky(C)
+
+    Z = rng.normal(size=(num_sims, steps, 2))
+    EZ = Z @ L.T
+
+    inc1 = (mu1_annual - 0.5 * sig1_annual**2) * dt + sig1_annual * np.sqrt(dt) * EZ[:, :, 0]
+    inc2 = (mu2_annual - 0.5 * sig2_annual**2) * dt + sig2_annual * np.sqrt(dt) * EZ[:, :, 1]
+
+    S1 = np.exp(np.log(S01) + np.cumsum(inc1, axis=1))
+    S2 = np.exp(np.log(S02) + np.cumsum(inc2, axis=1))
+
+    S1 = np.concatenate([np.full((num_sims, 1), S01), S1], axis=1)
+    S2 = np.concatenate([np.full((num_sims, 1), S02), S2], axis=1)
+
+    return [S1, S2]
+```
+
+## genera_df_portafolio {#func-df-port}
+Esta función construye el portafolio: $P_t = wS^{(1)}_{t} + (1-w)S^{(2)}_{t}$ 
+
+**Recibe:**
+
+- `w`(`float`): peso del activo 1 (el del activo 2 es 1-w)
+
+- `ticker1`, `ticker2`, `fecha_inicio`, `fecha_fin`
+
+- `num_sims`, `dt_days`, `T_days`
+
+- `returns_kind`, `seed`
+
+**Qué hace:**
+
+1.  Llama `genera_simulaciones_correlacionadas(...)` y obtiene `[S1, S2]`.
+
+2. Construye el portafolio en niveles para cada trayectoria y tiempo:
+
+   - P = w*S1 + (1-w)*S2
+
+3. Elimina la columna inicial ($P_0$) para que el formato coincida con LS:
+
+   - Devuelve solo pasos `"1"... "steps"`.
+
+
+**Devuelve:**
+`DataFrame (num_sims, steps)` con precios del portafolio simulados (sin $P_0$), columnas `"1"... "steps" `.
+
+```{python}
+def genera_df_portafolio(
+    w, ticker1, ticker2,
+    fecha_inicio, fecha_fin,
+    num_sims, dt_days, T_days,
+    returns_kind="log",
+    seed=None
+):
+    S1, S2 = genera_simulaciones_correlacionadas(
+        ticker1, ticker2,
+        fecha_inicio, fecha_fin,
+        num_sims, dt_days, T_days,
+        returns_kind=returns_kind, seed=seed
+    )
+    P = w * S1 + (1 - w) * S2
+    steps = P.shape[1] - 1
+
+    df = pd.DataFrame(P[:, 1:])
+    df.columns = [str(i) for i in range(1, steps + 1)]
+    return df
+```
+
+# LONGSTAFF–SCHWARTZ (PORTAFOLIO)
+Aquí aplicamos Longstaff–Schwartz (LS) a una opción Americana cuyo subyacente es un **portafolio**:
+
+\[
+P_t = w S_t^{(1)} + (1-w) S_t^{(2)}.
+\]
+
+La lógica del algoritmo es la misma que en 1 activo: en cada tiempo comparamos el valor intrínseco inmediato \(g(P_t)\) contra el valor de continuación \(\widehat{C}(P_t)\) estimado por regresión.
+
+---
+
+## ejercicio_americana_LS_port {#func-ls-port}
+
+**Recibe:**
+- `w` (`float`): peso del activo 1 (activo 2 usa `1-w`)
+- `ticker1` (`str`), `ticker2` (`str`)
+- `fecha_inicio` (`str`), `fecha_fin` (`str`)
+- `num_sims` (`int`): número de trayectorias simuladas
+- `dt_days` (`int|float`): paso en días
+- `T_days` (`int|float`): horizonte en días
+- `funcion_payoff` (`callable`): payoff sobre **portafolio**, tipo `funcion_payoff(P, K)`
+- `K` (`float`): strike (en unidades del portafolio)
+- `grados_pasado` (`int`): grado del polinomio para regresión LS
+- `r` (`float`): tasa libre de riesgo anual (continua)
+- `returns_kind` (`str`, default `"log"`): retornos usados para estimar \(\mu,\sigma,\rho\) en la simulación
+- `seed` (`int|None`): semilla
+- `min_itm` (`int`): mínimo de puntos ITM para ajustar regresión
+
+---
+
+### Qué hace (paso a paso)
+1. Construye trayectorias del **portafolio** en un `DataFrame`:
+   - Llama a `genera_df_portafolio(...)`
+   - Obtiene `df` tamaño `(num_sims, steps)` con columnas `"1"... "steps"`.
+   - Nota: `df` ya contiene \(P_t\), o sea **el subyacente** que usa LS.
+
+2. Define unidades:
+   \[
+   \Delta t = \frac{dt\_days}{252}, \qquad disc = e^{-r\Delta t}.
+   \]
+
+3. Convierte `df` a numpy: `paths = df.to_numpy()`.
+
+4. Controla ejercicio único por trayectoria con:
+   - `alive[i]=True` si la trayectoria `i` **aún no ha ejercido**.
+   - si ejerce en algún tiempo, se marca `False` para no “ejercer dos veces”.
+
+5. Inicializa los cashflows al vencimiento:
+   \[
+   cf_i = g(P_T^{(i)}).
+   \]
+
+6. Recorre hacia atrás `t = steps-1 ... 1`:
+   - Descuenta un paso: `cf_disc = cf * disc`
+   - Estado actual del portafolio: `S_t = paths[:, t-1]` (aquí `S_t` es realmente \(P_t\))
+   - Valor intrínseco: `intrinsic = g(P_t)`
+   - Elegibles para regresión: `eligible = alive & (intrinsic > 0)`
+
+7. Si hay pocos elegibles (`eligible.sum() < min_itm`):
+   - No ajusta regresión, solo actualiza `cf = cf_disc`
+   - Guarda lista vacía de ejercicio.
+
+8. Si hay suficientes elegibles:
+   - Ajusta regresión polinomial para estimar continuación:
+     - `X = P_t` (solo de elegibles)
+     - `Y = cf_disc` (solo de elegibles)
+     - Predice continuación \(\widehat{C}(P_t)\)
+   - Decide ejercicio si:
+     \[
+     g(P_t) \ge \widehat{C}(P_t).
+     \]
+   - Para los que ejercen:
+     - fija `cf` a intrínseco
+     - marca `alive=False` para no volver a ejercer
+
+9. Guarda en `lst` los índices que ejercen en cada tiempo (se arma hacia atrás).
+
+---
+
+### Devuelve
+- `[lst, df]` donde:
+  - `df`: trayectorias simuladas del portafolio \(P_t\), tamaño `(num_sims, steps)`.
+  - `lst`: lista de listas de índices de trayectorias que ejercen por tiempo (construida hacia atrás).
+
+```{python}
+def ejercicio_americana_LS_port(
+    w, ticker1, ticker2,
+    fecha_inicio, fecha_fin,
+    num_sims, dt_days, T_days,
+    funcion_payoff, K, grados_pasado,
+    r,
+    returns_kind="log",
+    seed=None,
+    min_itm=25
+):
+    df = genera_df_portafolio(
+        w, ticker1, ticker2,
+        fecha_inicio, fecha_fin,
+        num_sims, dt_days, T_days,
+        returns_kind=returns_kind, seed=seed
+    )
+
+    steps = df.shape[1]
+    dt = dt_days / TRADING_DAYS
+    disc = np.exp(-r * dt)
+
+    paths = df.to_numpy()
+    alive = np.ones(num_sims, dtype=bool)
+
+    cf = funcion_payoff(paths[:, -1], K).astype(float)
+
+    lst = []
+    lst.append(np.where((cf > 0) & alive)[0].tolist())
+
+    for t in range(steps - 1, 0, -1):
+        cf_disc = cf * disc
+        S_t = paths[:, t - 1]
+        intrinsic = funcion_payoff(S_t, K).astype(float)
+        eligible = alive & (intrinsic > 0)
+
+        if eligible.sum() < min_itm:
+            cf = cf_disc
+            lst.append([])
+            continue
+
+        X = S_t[eligible].reshape(-1, 1)
+        Y = cf_disc[eligible].reshape(-1, 1)
+
+        polin = PolynomialFeatures(degree=grados_pasado, include_bias=True)
+        Xp = polin.fit_transform(X)
+
+        reg = LinearRegression().fit(Xp, Y)
+        cont = reg.predict(Xp).flatten()
+
+        ex = intrinsic[eligible] >= cont
+        idx_eligible = np.where(eligible)[0]
+        idx_ex = idx_eligible[ex]
+
+        cf = cf_disc.copy()
+        cf[idx_ex] = intrinsic[idx_ex]
+        alive[idx_ex] = False
+
+        lst.append(idx_ex.tolist())
+
+    return [lst, df]
+```
+
+
+## obtiene_estrategia_LS_port {#func-strategy-port}
+
+**Recibe:**
+Los mismos parámetros que `ejercicio_americana_LS_port(...)` (sin `min_itm` explícito).
+
+**Qué hace:**
+
+1. Llama `ejercicio_americana_LS_port(...)` y obtiene `lst` y `df`.
+
+2. Invierte `lst` para volverlo cronológico.
+
+3. Construye una matriz binaria `df_estrategia` (sims × steps) con 1 en el tiempo donde ejerció.
+
+4. Para cada trayectoria:
+
+   - si nunca ejerció, guarda `-1`
+   
+   - si ejerció, guarda el primer tiempo donde ejerció (índice temporal)
+
+**Devuelve:**
+
+`[lista_fechas_ejercicio, df]` donde:
+
+   - `lista_fechas_ejercicio[i]` = tiempo (índice) de ejercicio de la trayectoria `i` o `-1`.
+   
+   - `df` = trayectorias del portafolio $P_t$	​
+
+```{python}
+def obtiene_estrategia_LS_port(
+    w, ticker1, ticker2,
+    fecha_inicio, fecha_fin,
+    num_sims, dt_days, T_days,
+    funcion_payoff, K, grados_pasado,
+    r,
+    returns_kind="log",
+    seed=None
+):
+    lst, df = ejercicio_americana_LS_port(
+        w, ticker1, ticker2,
+        fecha_inicio, fecha_fin,
+        num_sims, dt_days, T_days,
+        funcion_payoff, K, grados_pasado,
+        r=r, returns_kind=returns_kind, seed=seed
+    )
+
+    num_cols = df.shape[1]
+    lst = list(reversed(lst))
+
+    df_estrategia = np.zeros((num_sims, num_cols), dtype=int)
+    for j in range(num_cols):
+        idx = lst[j] if j < len(lst) else []
+        if idx:
+            df_estrategia[idx, j] = 1
+
+    lista_fechas_ejercicio = []
+    for i in range(num_sims):
+        row = df_estrategia[i, :]
+        if row.sum() == 0:
+            lista_fechas_ejercicio.append(-1)
+        else:
+            lista_fechas_ejercicio.append(int(np.argmax(row)))
+
+    return [lista_fechas_ejercicio, df]
+```
+
+
+## calcula_precio_americana_port {#func-price-port}
+
+Esta función convierte la **estrategia de ejercicio** hallada por Longstaff–Schwartz en un **precio** para la opción Americana cuyo subyacente es el portafolio:
+
+\[
+P_t = wS_t^{(1)} + (1-w)S_t^{(2)}.
+\]
+
+El precio se estima como el promedio del payoff **descontado** al tiempo de ejercicio de cada trayectoria.
+
+---
+
+**Recibe:**
+- `w` (`float`): peso del activo 1 (activo 2 usa `1-w`)
+- `ticker1` (`str`), `ticker2` (`str`)
+- `fecha_inicio` (`str`), `fecha_fin` (`str`)
+- `num_sims` (`int`): número de trayectorias simuladas
+- `dt_days` (`int|float`): paso en días
+- `T_days` (`int|float`): horizonte en días
+- `funcion_payoff` (`callable`): payoff sobre el portafolio, tipo `funcion_payoff(P, K)`
+- `K` (`float`): strike (en unidades del portafolio)
+- `grados_pasado` (`int`): grado del polinomio usado dentro de LS
+- `r` (`float`): tasa libre de riesgo anual (continua)
+- `returns_kind` (`str`, default `"log"`)
+- `seed` (`int|None`)
+
+---
+
+**Qué hace:**
+1. Llama a `obtiene_estrategia_LS_port(...)` para obtener:
+   - `lista_fechas_ejercicio`: primer tiempo de ejercicio por trayectoria (o `-1` si no ejerció).
+   - `df`: trayectorias simuladas del **portafolio** \(P_t\) (sin \(P_0\)), con columnas `"1"... "steps"`.
+
+2. Convierte el paso a años:
+\[
+\Delta t = \frac{dt\_days}{252}.
+\]
+
+3. Para cada trayectoria `i`:
+   - Si `t_idx < 0`, asigna payoff 0 (no ejerció en ningún tiempo).
+   - Si sí ejerció:
+     - Toma el precio del portafolio en el tiempo de ejercicio:
+       \[
+       P_{ex} = df[i, t\_idx]
+       \]
+     - Evalúa payoff inmediato \(g(P_{ex})\).
+     - Descuenta a valor presente:
+       \[
+       PV_i = g(P_{ex})\exp\!\left(-r\,(t_{pasos})\Delta t\right),
+       \]
+       donde \(t_{pasos} = t\_idx + 1\).
+
+   **Ojo con** `(t_idx + 1)`:
+   - `t_idx=0` corresponde al primer paso (columna `"1"`), o sea **1 paso** después de \(P_0\).
+   - Por eso el tiempo real en pasos es `t_idx + 1`.
+
+4. Construye `estrategia_ejercicio` para graficar histograma:
+   - Reemplaza `-1` por `NaN`, así el histograma ignora trayectorias que no ejercieron.
+
+---
+
+**Devuelve**
+
+- `[precio_port, estrategia_ejercicio]` donde:
+  - `precio_port` (`float`) = promedio de los payoffs descontados:
+    \[
+    \hat{V}_0 = \frac{1}{N}\sum_{i=1}^N PV_i
+    \]
+  - `estrategia_ejercicio` (`list[float]`) = tiempos de ejercicio (índice) o `NaN` si no ejerció.
+
+```{python}
+def calcula_precio_americana_port(
+    w, ticker1, ticker2,
+    fecha_inicio, fecha_fin,
+    num_sims, dt_days, T_days,
+    funcion_payoff, K, grados_pasado,
+    r,
+    returns_kind="log",
+    seed=None
+):
+    lista_fechas_ejercicio, df = obtiene_estrategia_LS_port(
+        w, ticker1, ticker2,
+        fecha_inicio, fecha_fin,
+        num_sims, dt_days, T_days,
+        funcion_payoff, K, grados_pasado,
+        r=r, returns_kind=returns_kind, seed=seed
+    )
+
+    dt = dt_days / TRADING_DAYS
+
+    payoff_ejercicio = np.zeros(num_sims, dtype=float)
+    for i in range(num_sims):
+        t_idx = lista_fechas_ejercicio[i]
+        if t_idx < 0:
+            payoff_ejercicio[i] = 0.0
+        else:
+            S_ex = float(df.iloc[i, t_idx])
+            payoff_ejercicio[i] = float(funcion_payoff(S_ex, K)) * math.exp(-r * (t_idx + 1) * dt)
+
+    estrategia_ejercicio = [np.nan if t < 0 else t for t in lista_fechas_ejercicio]
+    return [float(np.mean(payoff_ejercicio)), estrategia_ejercicio]
+```
+
+# BINOMIAL AMERICANA (sola)
+
+En esta sección valuamos una opción **Americana** con un **árbol binomial** de \(N\) pasos.  
+A diferencia del GBM con \(\mu\) histórica (medida \(P\)), en el árbol binomial para valuación se trabaja con la **medida neutral al riesgo** (risk-neutral): el drift relevante para el precio es \(r\), no \(\mu\).
+
+---
+
+## arbol_americano {#func-bin-single}
+
+**Recibe:**
+- `ticker` (`str`): símbolo del activo (ej. `"AAPL"`)
+- `fecha_inicio` (`str`), `fecha_fin` (`str`): ventana histórica para estimar \(\sigma\)
+- `K` (`float`): strike
+- `T_years` (`float`): madurez en **años** (ej. `1.0`)
+- `r` (`float`): tasa libre de riesgo anual (continua)
+- `N` (`int`): número de pasos del árbol
+- `tipo` (`str`): `"call"` o `"put"`
+- `returns_kind` (`str`, default `"log"`): tipo de retorno para estimar \(\sigma\)
+
+---
+
+**Qué hace**
+1. **Estima volatilidad diaria** \(\sigma_{daily}\) desde retornos históricos con `calcula_desv_est(...)`  
+   y la convierte a **anual**:
+   \[
+   \sigma = \sigma_{daily}\sqrt{252}.
+   \]
+
+2. Define el tamaño del paso en años:
+   \[
+   \Delta t = \frac{T}{N}.
+   \]
+
+3. Define factores de subida y bajada (modelo tipo CRR):
+   \[
+   u = e^{\sigma\sqrt{\Delta t}}, \qquad d=\frac{1}{u}.
+   \]
+
+4. Define la probabilidad neutral al riesgo:
+   \[
+   p = \frac{e^{r\Delta t}-d}{u-d},
+   \]
+   y el factor de descuento por paso:
+   \[
+   disc = e^{-r\Delta t}.
+   \]
+
+5. Obtiene el precio inicial \(S_0\) como el último precio histórico en el rango.
+
+6. Construye los precios al vencimiento \(S_T(j)\) para \(j=0,\dots,N\):
+   \[
+   S_T(j)=S_0\,u^j\,d^{N-j}.
+   \]
+
+7. Evalúa el payoff al vencimiento:
+   \[
+   V_T(j)=\max(S_T(j)-K,0) \ \text{(call)}, \quad
+   V_T(j)=\max(K-S_T(j),0) \ \text{(put)}.
+   \]
+
+8. Hace **backward induction** desde \(i=N-1\) hasta \(0\):
+   - Valor por continuación (risk-neutral):
+     \[
+     V^{cont} = disc\,[pV^{up}+(1-p)V^{down}].
+     \]
+   - Valor por ejercicio inmediato (Americana):
+     \[
+     V^{ex} = \max(S_i-K,0) \ \text{(call)}, \quad \max(K-S_i,0)\ \text{(put)}.
+     \]
+   - Toma:
+     \[
+     V_i = \max(V^{cont}, V^{ex}).
+     \]
+   Esto es lo que hace que sea **Americana**: permite ejercicio temprano.
+
+---
+
+**Devuelve**
+- `float`: valor de la opción en el nodo inicial, \(V_0\).
+
+```{python}
+def arbol_americano(ticker, fecha_inicio, fecha_fin, K, T_years, r, N, tipo="put",
+                   returns_kind="log"):
+    sigma_daily = calcula_desv_est(ticker, fecha_inicio, fecha_fin, kind=returns_kind, ddof=1)
+    sigma = sigma_daily * np.sqrt(TRADING_DAYS)  # anual
+
+    dt = T_years / N
+    u = np.exp(sigma * np.sqrt(dt))
+    d = 1.0 / u
+    p = (np.exp(r * dt) - d) / (u - d)
+    disc = np.exp(-r * dt)
+
+    S0 = ultimo_precio(ticker, fecha_inicio, fecha_fin)
+
+    j = np.arange(N + 1)
+    S_T = S0 * (u ** j) * (d ** (N - j))
+
+    V = np.maximum(S_T - K, 0.0) if tipo == "call" else np.maximum(K - S_T, 0.0)
+
+    for i in range(N - 1, -1, -1):
+        j = np.arange(i + 1)
+        S_i = S0 * (u ** j) * (d ** (i - j))
+        V = disc * (p * V[1:] + (1 - p) * V[:-1])
+        V = np.maximum(V, S_i - K) if tipo == "call" else np.maximum(V, K - S_i)
+
+    return float(V[0])
+```
+
+## arbol_americano_portafolio {#func-bin-port}
+
+En esta función valuamos una opción Americana con árbol binomial, pero cuyo resultado es el **portafolio**:
+
+\[
+P = wS^{(1)} + (1-w)S^{(2)}.
+\]
+
+La idea del código es: tratar al portafolio como si fuera “un solo activo” binomial con volatilidad anual \(\sigma_P\) estimada con:
+
+\[
+\sigma_P^2 = w^2\sigma_1^2 + (1-w)^2\sigma_2^2 + 2w(1-w)\rho\sigma_1\sigma_2.
+\]
+
+
+---
+
+**Recibe**
+- `ticker1` (`str`), `ticker2` (`str`)
+- `w` (`float`): peso del activo 1 (activo 2 tiene `1-w`)
+- `fecha_inicio` (`str`), `fecha_fin` (`str`): ventana histórica para estimar \(\sigma_1,\sigma_2,\rho\)
+- `K` (`float`): strike (en unidades del portafolio)
+- `T_years` (`float`): madurez en **años**
+- `r` (`float`): tasa libre de riesgo anual (continua)
+- `N` (`int`): número de pasos del árbol
+- `tipo` (`str`): `"call"` o `"put"`
+- `returns_kind` (`str`, default `"log"`): tipo de retornos para estimación
+
+---
+
+**Qué hace**
+1. Estima volatilidades diarias de ambos activos y anualiza:
+   \[
+   \sigma_1 = \sigma_{1,daily}\sqrt{252}, \qquad \sigma_2 = \sigma_{2,daily}\sqrt{252}.
+   \]
+
+2. Estima la correlación histórica de retornos:
+   \[
+   \rho = Corr(r^{(1)}, r^{(2)}).
+   \]
+
+3. Calcula la volatilidad anual del portafolio:
+   \[
+   \sigma_P = \sqrt{ w^2\sigma_1^2 + (1-w)^2\sigma_2^2 + 2w(1-w)\rho\sigma_1\sigma_2 }.
+   \]
+
+4. Construye el árbol binomial con \(N\) pasos y horizonte \(T\):
+   \[
+   \Delta t = \frac{T}{N},\quad
+   u = e^{\sigma_P\sqrt{\Delta t}},\quad
+   d = \frac{1}{u}.
+   \]
+
+5. Calcula probabilidad neutral al riesgo y descuento:
+   \[
+   p = \frac{e^{r\Delta t}-d}{u-d}, \qquad disc = e^{-r\Delta t}.
+   \]
+
+6. Define el valor inicial del portafolio con últimos precios:
+   \[
+   P_0 = wS_{0,1} + (1-w)S_{0,2}.
+   \]
+
+7. Calcula valores al vencimiento:
+   \[
+   P_T(j)=P_0u^j d^{N-j}, \quad j=0,\dots,N,
+   \]
+   y payoff:
+   \[
+   V_T(j)=\max(P_T(j)-K,0)\ \text{(call)},\quad \max(K-P_T(j),0)\ \text{(put)}.
+   \]
+
+8. Backward induction (Americana):
+   - Continuación:
+     \[
+     V^{cont} = disc\,[pV^{up}+(1-p)V^{down}].
+     \]
+   - Ejercicio inmediato:
+     \[
+     V^{ex}=\max(P_i-K,0)\ \text{(call)} \quad \text{o}\quad \max(K-P_i,0)\ \text{(put)}.
+     \]
+   - Nodo:
+     \[
+     V_i = \max(V^{cont}, V^{ex}).
+     \]
+
+---
+
+### Devuelve
+- `float`: valor aproximado en el nodo inicial \(V_0\) del derivado americano sobre el portafolio.
+
+```{python}
+def arbol_americano_portafolio(ticker1, ticker2, w, fecha_inicio, fecha_fin, K, T_years, r, N,
+                               tipo="call", returns_kind="log"):
+    sig1_daily = calcula_desv_est(ticker1, fecha_inicio, fecha_fin, kind=returns_kind, ddof=1)
+    sig2_daily = calcula_desv_est(ticker2, fecha_inicio, fecha_fin, kind=returns_kind, ddof=1)
+    sig1 = sig1_daily * np.sqrt(TRADING_DAYS)
+    sig2 = sig2_daily * np.sqrt(TRADING_DAYS)
+    rho = calcula_correlacion(ticker1, ticker2, fecha_inicio, fecha_fin, kind=returns_kind)
+
+    sigmaP = math.sqrt((w**2) * (sig1**2) + ((1-w)**2) * (sig2**2) + 2*w*(1-w)*rho*sig1*sig2)
+
+    dt = T_years / N
+    u = np.exp(sigmaP * np.sqrt(dt))
+    d = 1.0 / u
+    p = (np.exp(r * dt) - d) / (u - d)
+    disc = np.exp(-r * dt)
+
+    S01 = ultimo_precio(ticker1, fecha_inicio, fecha_fin)
+    S02 = ultimo_precio(ticker2, fecha_inicio, fecha_fin)
+    S0 = w * S01 + (1 - w) * S02
+
+    j = np.arange(N + 1)
+    S_T = S0 * (u ** j) * (d ** (N - j))
+    V = np.maximum(S_T - K, 0.0) if tipo == "call" else np.maximum(K - S_T, 0.0)
+
+    for i in range(N - 1, -1, -1):
+        j = np.arange(i + 1)
+        S_i = S0 * (u ** j) * (d ** (i - j))
+        V = disc * (p * V[1:] + (1 - p) * V[:-1])
+        V = np.maximum(V, S_i - K) if tipo == "call" else np.maximum(V, K - S_i)
+
+    return float(V[0])
+```
+---
+
+# HISTOGRAMA
+Este bloque sirve para visualizar cuando se ejercen las opciones según la estrategia estimada por Longstaff–Schwartz.
+
+## plot_hist_ejercicio {#func-hist}
+
+**Recibe:**
+- `estrategia_ejercicio` (`list[float]` o `list[int]`):
+  - Lista con el índice de ejercicio por simulación.
+  - Usualmente viene de `calcula_precio_americana(...)` o `calcula_precio_americana_port(...)`.
+  - Contiene `NaN` para trayectorias que **no ejercieron** (eso se hace a propósito para graficar).
+- `T_days` (`int|float`): horizonte total en días (ej. `252/2`)
+- `titulo` (`str`): título del histograma
+
+**Qué hace:**
+1. Convierte la lista a `numpy` y separa valores válidos:
+   - `valid = ej[~np.isnan(ej)]` elimina los `NaN` (trayectorias que no ejercieron).
+2. Dibuja el histograma de los índices de ejercicio.
+3. En el título muestra cuántas simulaciones no ejercieron.
+
+**Devuelve:**
+- No devuelve nada (`None`). Solo **grafica**.
+
+```{python}
+def plot_hist_ejercicio(estrategia_ejercicio, T_days, titulo="Histograma ejercicio"):
+    ej = np.array(estrategia_ejercicio, dtype=float)
+    valid = ej[~np.isnan(ej)]
+
+    plt.figure()
+    plt.hist(valid, bins=max(10, int(T_days / 2)))
+    plt.title(f"{titulo} | no ejerció: {np.isnan(ej).sum()}")
+    plt.xlabel("Índice de tiempo ")
+    plt.ylabel("Frecuencia")
+    plt.show()
+```
+**Interpretación del eje X:**
+- El histograma muestra el **índice de tiempo** `t_idx` (base 0) donde ejerció cada trayectoria.
+- Para convertirlo a:
+  - **pasos reales**: `t_steps = t_idx + 1`
+  - **días**: `t_days ≈ (t_idx + 1) * dt_days`  (si usas `dt_days=1`, coincide con días)
+  - **años**: `t_years = (t_idx + 1) * dt_days / 252`
+
+
+# EJEMPLOS DE USO
+
+Esta sección sirve como guia del notebook: fija parámetros, ejecuta las funciones principales y muestra resultados (precios + histogramas).
+
+---
+
+## Bloque principal `if __name__ == "__main__":` {#sec-ejemplos}
+
+**Qué define (inputs):**
+- `ticker1`, `ticker2`: activos (ej. `"AAPL"`, `"SBUX"`)
+- `fecha_inicio`, `fecha_fin`: ventana histórica para estimar \(\mu\), \(\sigma\) y \(\rho\)
+- `r`: tasa libre de riesgo anual (continua), usada para descuento y para binomial
+- `dt_days`: tamaño del paso en días (1 = diario)
+- `T_days`: horizonte total en días (ej. `252/2`)
+- `num_sims`: número de simulaciones (Monte Carlo)
+- `grados_pasado`: grado del polinomio en LS (regresión para continuación)
+
+**Qué hace:**
+1. Define un strike para LS en el caso single:
+   - `K = ultimo_precio(ticker1, ...)`  
+   (esto replica tu idea: strike “razonable” cercano al spot actual).
+
+2. Ejecuta Longstaff–Schwartz (1 activo, put):
+   - Llama `calcula_precio_americana(...)`
+   - Imprime el precio estimado
+   - Grafica el histograma de tiempos/índices de ejercicio con `plot_hist_ejercicio(...)`
+
+3. Ejecuta Longstaff–Schwartz (portafolio, put):
+   - Define `w` (peso del activo 1)
+   - Construye strike del portafolio:
+     \[
+     K_p = wS_{0,1} + (1-w)S_{0,2}
+     \]
+   - Llama `calcula_precio_americana_port(...)`
+   - Imprime el precio estimado
+   - Grafica histograma del ejercicio
+
+4. Ejecuta árbol binomial (1 activo, call):
+   - Llama `arbol_americano(...)`
+   - Imprime el precio binomial
+
+5. Ejecuta árbol binomial (portafolio, call):
+   - Usa un strike ejemplo (promedio simple de spots):
+     \[
+     K = \frac{S_{0,1}+S_{0,2}}{2}
+     \]
+   - Llama `arbol_americano_portafolio(...)`
+   - Imprime el precio binomial del portafolio (aprox)
+
+**Devuelve:**
+- Este bloque no “devuelve” como función; produce **salida en consola** (prints) y **gráficas** (histogramas).
+
+---
+
+```{python}
+if __name__ == "__main__":
+    ticker1 = "AAPL"
+    ticker2 = "SBUX"
+    fecha_inicio = "2021-01-01"
+    fecha_fin = "2022-03-31"
+
+    r = 0.06
+    dt_days = 1
+    T_days = 252 / 2
+    num_sims = 10000
+    grados_pasado = 2
+
+    # strike ejemplo como tú
+    K = ultimo_precio(ticker1, fecha_inicio, fecha_fin)
+
+    # --- LS single (simulación con mu histórica) ---
+    precio, ejercicios = calcula_precio_americana(
+        ticker1, fecha_inicio, fecha_fin,
+        num_sims=num_sims, dt_days=dt_days, T_days=T_days,
+        funcion_payoff=payoff_put, K=K, grados_pasado=grados_pasado,
+        r=r, seed=123
+    )
+    print("Precio LS (single, put, con mu):", precio)
+    plot_hist_ejercicio(ejercicios, T_days, "Ejercicio (single)")
+
+    # --- LS portafolio (simulación con mu histórica) ---
+    w = 0.7
+    K1 = ultimo_precio(ticker1, fecha_inicio, fecha_fin)
+    K2 = ultimo_precio(ticker2, fecha_inicio, fecha_fin)
+    Kp = w * K1 + (1 - w) * K2
+
+    precio_p, ejercicios_p = calcula_precio_americana_port(
+        w, ticker1, ticker2,
+        fecha_inicio, fecha_fin,
+        num_sims=num_sims, dt_days=dt_days, T_days=T_days,
+        funcion_payoff=payoff_put, K=Kp, grados_pasado=grados_pasado,
+        r=r, seed=123
+    )
+    print("Precio LS (port, put, con mu):", precio_p)
+    plot_hist_ejercicio(ejercicios_p, T_days, "Ejercicio (portafolio)")
+
+    # --- Binomial sola ---
+    precio_bin = arbol_americano(
+        ticker1, fecha_inicio, fecha_fin,
+        K=170, T_years=1.0, r=r, N=100, tipo="call"
+    )
+    print("Precio Binomial (single, call):", precio_bin)
+
+    # --- Binomial port ---
+    K_port_bin = (K1 + K2) / 2
+    precio_bin_port = arbol_americano_portafolio(
+        ticker1, ticker2, w, fecha_inicio, fecha_fin,
+        K=K_port_bin, T_years=1.0, r=r, N=100, tipo="call"
+    )
+    print("Precio Binomial (port, call):", precio_bin_port)
+```
+

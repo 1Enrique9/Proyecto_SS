@@ -1,0 +1,6 @@
+jupyter
+ipykernel
+PyYAML
+nbclient
+numpy
+matplotlib
