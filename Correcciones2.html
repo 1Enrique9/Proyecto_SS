@@ -1,0 +1,1398 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Eduardo Selim Martínez Mayorga">
+<meta name="dcterms.date" content="2022-05-10">
+
+<title>Finanzas</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="Correcciones2_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Correcciones2_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="Correcciones2_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="Correcciones2_files/libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="Correcciones2_files/libs/quarto-html/popper.min.js"></script>
+<script src="Correcciones2_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Correcciones2_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Correcciones2_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Correcciones2_files/libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Correcciones2_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Correcciones2_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Correcciones2_files/libs/bootstrap/bootstrap-9e3ffae467580fdb927a41352e75a2e0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="Correcciones2_files/libs/quarto-diagram/mermaid.min.js"></script>
+<script src="Correcciones2_files/libs/quarto-diagram/mermaid-init.js"></script>
+<link href="Correcciones2_files/libs/quarto-diagram/mermaid.css" rel="stylesheet">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#finanzas" id="toc-finanzas" class="nav-link active" data-scroll-target="#finanzas">Finanzas</a>
+  <ul class="collapse">
+  <li><a href="#proyecto-individual" id="toc-proyecto-individual" class="nav-link" data-scroll-target="#proyecto-individual">Proyecto individual</a>
+  <ul class="collapse">
+  <li><a href="#profesor-eduardo-selim-martínez-mayorga" id="toc-profesor-eduardo-selim-martínez-mayorga" class="nav-link" data-scroll-target="#profesor-eduardo-selim-martínez-mayorga">Profesor: Eduardo Selim Martínez Mayorga</a></li>
+  </ul></li>
+  <li><a href="#diagrama-de-flujo-del-notebook" id="toc-diagrama-de-flujo-del-notebook" class="nav-link" data-scroll-target="#diagrama-de-flujo-del-notebook">Diagrama de flujo del notebook</a></li>
+  </ul></li>
+  <li><a href="#librerías" id="toc-librerías" class="nav-link" data-scroll-target="#librerías">Librerías</a></li>
+  <li><a href="#descargar-datos-de-yahoo-finance" id="toc-descargar-datos-de-yahoo-finance" class="nav-link" data-scroll-target="#descargar-datos-de-yahoo-finance">Descargar datos de Yahoo Finance</a></li>
+  <li><a href="#estimadores" id="toc-estimadores" class="nav-link" data-scroll-target="#estimadores">Estimadores</a></li>
+  <li><a href="#binomial-americana-sola" id="toc-binomial-americana-sola" class="nav-link" data-scroll-target="#binomial-americana-sola">BINOMIAL AMERICANA (sola)</a></li>
+  <li><a href="#binomial-americana-portafolio" id="toc-binomial-americana-portafolio" class="nav-link" data-scroll-target="#binomial-americana-portafolio">BINOMIAL AMERICANA (portafolio)</a></li>
+  <li><a href="#payoffs-sin-globals" id="toc-payoffs-sin-globals" class="nav-link" data-scroll-target="#payoffs-sin-globals">PAYOFFS (sin globals)</a></li>
+  <li><a href="#simulación-gbm-1-activo-con-mu-histórica-p" id="toc-simulación-gbm-1-activo-con-mu-histórica-p" class="nav-link" data-scroll-target="#simulación-gbm-1-activo-con-mu-histórica-p">SIMULACIÓN GBM (1 activo) CON MU HISTÓRICA (P)</a></li>
+  <li><a href="#longstaffschwartz-1-activo" id="toc-longstaffschwartz-1-activo" class="nav-link" data-scroll-target="#longstaffschwartz-1-activo">LONGSTAFF–SCHWARTZ (1 activo)</a></li>
+  <li><a href="#simulación-correlacionada-2-activos-con-mu-histórica-p" id="toc-simulación-correlacionada-2-activos-con-mu-histórica-p" class="nav-link" data-scroll-target="#simulación-correlacionada-2-activos-con-mu-histórica-p">SIMULACIÓN CORRELACIONADA (2 activos) CON MU HISTÓRICA (P)</a></li>
+  <li><a href="#longstaffschwartz-portafolio" id="toc-longstaffschwartz-portafolio" class="nav-link" data-scroll-target="#longstaffschwartz-portafolio">LONGSTAFF–SCHWARTZ (PORTAFOLIO)</a></li>
+  <li><a href="#histograma" id="toc-histograma" class="nav-link" data-scroll-target="#histograma">HISTOGRAMA</a></li>
+  <li><a href="#ejemplos-de-uso" id="toc-ejemplos-de-uso" class="nav-link" data-scroll-target="#ejemplos-de-uso">EJEMPLOS DE USO</a></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Finanzas</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Eduardo Selim Martínez Mayorga </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">May 10, 2022</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="finanzas" class="level1">
+<h1>Finanzas</h1>
+<section id="proyecto-individual" class="level2">
+<h2 class="anchored" data-anchor-id="proyecto-individual">Proyecto individual</h2>
+<section id="profesor-eduardo-selim-martínez-mayorga" class="level3">
+<h3 class="anchored" data-anchor-id="profesor-eduardo-selim-martínez-mayorga">Profesor: Eduardo Selim Martínez Mayorga</h3>
+</section>
+</section>
+<section id="diagrama-de-flujo-del-notebook" class="level2">
+<h2 class="anchored" data-anchor-id="diagrama-de-flujo-del-notebook">Diagrama de flujo del notebook</h2>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart TB
+
+  %% =========================
+  %% INPUTS GENERALES
+  %% =========================
+  U[/"Inputs\n- ticker(s)\n- fecha_inicio, fecha_fin\n- num_sims, dt_days, T_days\n- K, r, grados_pasado\n- (port) w\n- (binomial) T_years, N"/]
+
+  %% =========================
+  %% BLOQUE A: DATOS Y ESTIMADORES
+  %% =========================
+  subgraph A["A) Datos (Yahoo) + Estimadores"]
+    A1["get_close(tickers, inicio, fin)\n-&gt; DataFrame Close (columnas=tickers)"]
+    A2["returns_from_close(close)\n-&gt; DataFrame retornos (alineados)"]
+    A3["ultimo_precio(ticker)\n-&gt; float S0"]
+    A4["calcula_media(ticker)\n-&gt; float mu (diaria)"]
+    A5["calcula_desv_est(ticker)\n-&gt; float sigma (diaria, ddof=1)"]
+    A6["calcula_correlacion(t1,t2)\n-&gt; float rho"]
+  end
+
+  U --&gt; A1 --&gt; A2
+  A1 --&gt; A3
+  A2 --&gt; A4
+  A2 --&gt; A5
+  A2 --&gt; A6
+
+  %% =========================
+  %% BLOQUE B: LS SINGLE (MU)
+  %% =========================
+  subgraph B["B) Longstaff–Schwartz (1 activo, simulación con μ)"]
+    B1["genera_simulaciones_individual(...)\nusa μ histórica y σ\n-&gt; array (num_sims, steps+1) incluye S0"]
+    B2["genera_df_simulaciones(...)\nquita S0\n-&gt; DataFrame (num_sims, steps)\ncolumnas '1'..'steps'"]
+    B3["ejercicio_americana_LS(...)\nbackward induction + regresión polinomial\n-&gt; [lst, df]\n(lst: índices que ejercen por tiempo)"]
+    B4["obtiene_estrategia_LS(...)\nconvierte lst -&gt; primera fecha ejercicio\n-&gt; [lista_fechas_ejercicio, df]\n(-1 si no ejerció)"]
+    B5["calcula_precio_americana(...)\nprecio = payoff descontado promedio\n-&gt; [precio, estrategia_ejercicio]\n(NaN si no ejerció)"]
+    B6["plot_hist_ejercicio(estrategia_ejercicio)\n-&gt; histograma"]
+  end
+
+  A3 --&gt; B1
+  A4 --&gt; B1
+  A5 --&gt; B1
+  B1 --&gt; B2 --&gt; B3 --&gt; B4 --&gt; B5 --&gt; B6
+
+  %% =========================
+  %% BLOQUE C: LS PORTAFOLIO (MU)
+  %% =========================
+  subgraph C["C) Longstaff–Schwartz (Portafolio 2 activos, simulación con μ)"]
+    C1["genera_simulaciones_correlacionadas(...)\nusa ρ, μ1, μ2, σ1, σ2\n-&gt; [S1, S2] arrays (num_sims, steps+1)"]
+    C2["genera_df_portafolio(w,...)\nP = w S1 + (1-w) S2\nquita S0\n-&gt; DataFrame (num_sims, steps)"]
+    C3["ejercicio_americana_LS_port(...)\n-&gt; [lst_port, df_port]"]
+    C4["obtiene_estrategia_LS_port(...)\n-&gt; [lista_fechas_port, df_port]"]
+    C5["calcula_precio_americana_port(...)\n-&gt; [precio_port, estrategia_ejercicio_port]"]
+    C6["plot_hist_ejercicio(estrategia_ejercicio_port)\n-&gt; histograma port"]
+  end
+
+  A6 --&gt; C1
+  A4 --&gt; C1
+  A5 --&gt; C1
+  A3 --&gt; C1
+  C1 --&gt; C2 --&gt; C3 --&gt; C4 --&gt; C5 --&gt; C6
+
+  %% =========================
+  %% BLOQUE D: BINOMIAL (EXTRA)
+  %% =========================
+  subgraph D["D) Árbol Binomial (Americana)"]
+    D1["arbol_americano(ticker,...)\n-&gt; float precio (single)"]
+    D2["arbol_americano_portafolio(t1,t2,w,...)\n-&gt; float precio (port)"]
+  end
+
+  U --&gt; D1
+  U --&gt; D2
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="librerías" class="level1">
+<h1>Librerías</h1>
+<div id="2f81be6e" class="cell" data-execution_count="1">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> yfinance <span class="im">as</span> yf</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> math</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> functools <span class="im">import</span> lru_cache</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> PolynomialFeatures</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="db222db4" class="cell" data-execution_count="2">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>TRADING_DAYS <span class="op">=</span> <span class="dv">252</span>  <span class="co"># días hábiles por año</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+<section id="descargar-datos-de-yahoo-finance" class="level1">
+<h1>Descargar datos de Yahoo Finance</h1>
+<div id="c86cba7a" class="cell" data-execution_count="3">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="at">@lru_cache</span>(maxsize<span class="op">=</span><span class="dv">128</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> _download_close_cached(tickers_tuple, start, end, auto_adjust<span class="op">=</span><span class="va">True</span>):</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    tickers <span class="op">=</span> <span class="bu">list</span>(tickers_tuple)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    data <span class="op">=</span> yf.download(</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>        tickers,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>        start<span class="op">=</span>start,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>        end<span class="op">=</span>end,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>        progress<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>        auto_adjust<span class="op">=</span>auto_adjust,</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>        group_by<span class="op">=</span><span class="st">"column"</span>,</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Caso MultiIndex</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">isinstance</span>(data.columns, pd.MultiIndex):</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="st">"Close"</span> <span class="kw">in</span> data.columns.get_level_values(<span class="dv">0</span>):</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>            close <span class="op">=</span> data[<span class="st">"Close"</span>].copy()</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">elif</span> <span class="st">"Adj Close"</span> <span class="kw">in</span> data.columns.get_level_values(<span class="dv">0</span>):</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>            close <span class="op">=</span> data[<span class="st">"Adj Close"</span>].copy()</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>            <span class="cf">raise</span> <span class="pp">KeyError</span>(<span class="st">"No encontré 'Close' ni 'Adj Close' en columnas MultiIndex."</span>)</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Caso SingleIndex</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="st">"Close"</span> <span class="kw">in</span> data.columns:</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>            close <span class="op">=</span> data[[<span class="st">"Close"</span>]].copy()</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>        <span class="cf">elif</span> <span class="st">"Adj Close"</span> <span class="kw">in</span> data.columns:</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>            close <span class="op">=</span> data[[<span class="st">"Adj Close"</span>]].copy()</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>            <span class="cf">raise</span> <span class="pp">KeyError</span>(<span class="st">"No encontré 'Close' ni 'Adj Close' en columnas."</span>)</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">len</span>(tickers) <span class="op">==</span> <span class="dv">1</span>:</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>            close.columns <span class="op">=</span> [tickers[<span class="dv">0</span>]]</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">isinstance</span>(close, pd.Series):</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>        close <span class="op">=</span> close.to_frame(name<span class="op">=</span>tickers[<span class="dv">0</span>])</span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>    close <span class="op">=</span> close.dropna(how<span class="op">=</span><span class="st">"all"</span>)</span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> close</span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_close(tickers, fecha_inicio, fecha_fin, auto_adjust<span class="op">=</span><span class="va">True</span>):</span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">isinstance</span>(tickers, <span class="bu">str</span>):</span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>        tickers <span class="op">=</span> [tickers]</span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>    close <span class="op">=</span> _download_close_cached(<span class="bu">tuple</span>(tickers), fecha_inicio, fecha_fin, auto_adjust<span class="op">=</span>auto_adjust)</span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>    missing <span class="op">=</span> [t <span class="cf">for</span> t <span class="kw">in</span> tickers <span class="cf">if</span> t <span class="kw">not</span> <span class="kw">in</span> close.columns]</span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> missing:</span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">KeyError</span>(<span class="ss">f"Faltan columnas para tickers: </span><span class="sc">{</span>missing<span class="sc">}</span><span class="ss">. Columnas disponibles: </span><span class="sc">{</span><span class="bu">list</span>(close.columns)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> close[tickers]</span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> returns_from_close(close: pd.DataFrame, kind<span class="op">=</span><span class="st">"log"</span>):</span>
+<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a>    close <span class="op">=</span> close.dropna(how<span class="op">=</span><span class="st">"any"</span>)</span>
+<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> kind <span class="op">==</span> <span class="st">"log"</span>:</span>
+<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a>        rets <span class="op">=</span> np.log(close).diff()</span>
+<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a>        rets <span class="op">=</span> close.pct_change()</span>
+<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> rets.dropna(how<span class="op">=</span><span class="st">"any"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+<section id="estimadores" class="level1">
+<h1>Estimadores</h1>
+<div id="d77b07ba" class="cell" data-execution_count="4">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calcula_media(ticker, fecha_inicio, fecha_fin, kind<span class="op">=</span><span class="st">"log"</span>):</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    close <span class="op">=</span> get_close(ticker, fecha_inicio, fecha_fin)[ticker]</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    rets <span class="op">=</span> returns_from_close(close.to_frame(<span class="st">"x"</span>), kind<span class="op">=</span>kind)[<span class="st">"x"</span>]</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">float</span>(rets.mean())  <span class="co"># media por día </span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calcula_desv_est(ticker, fecha_inicio, fecha_fin, kind<span class="op">=</span><span class="st">"log"</span>, ddof<span class="op">=</span><span class="dv">1</span>):</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    close <span class="op">=</span> get_close(ticker, fecha_inicio, fecha_fin)[ticker]</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    rets <span class="op">=</span> returns_from_close(close.to_frame(<span class="st">"x"</span>), kind<span class="op">=</span>kind)[<span class="st">"x"</span>]</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">float</span>(rets.std(ddof<span class="op">=</span>ddof))  <span class="co"># sigma por día </span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calcula_correlacion(ticker1, ticker2, fecha_inicio, fecha_fin, kind<span class="op">=</span><span class="st">"log"</span>):</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    close <span class="op">=</span> get_close([ticker1, ticker2], fecha_inicio, fecha_fin)[[ticker1, ticker2]]</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    rets <span class="op">=</span> returns_from_close(close, kind<span class="op">=</span>kind)</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">float</span>(rets.corr().iloc[<span class="dv">0</span>, <span class="dv">1</span>])</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> ultimo_precio(ticker, fecha_inicio, fecha_fin):</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    close <span class="op">=</span> get_close(ticker, fecha_inicio, fecha_fin)[ticker]</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">float</span>(close.iloc[<span class="op">-</span><span class="dv">1</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+<section id="binomial-americana-sola" class="level1">
+<h1>BINOMIAL AMERICANA (sola)</h1>
+<div id="abaee9fb" class="cell" data-execution_count="5">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> arbol_americano(ticker, fecha_inicio, fecha_fin, K, T_years, r, N, tipo<span class="op">=</span><span class="st">"put"</span>,</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>                   returns_kind<span class="op">=</span><span class="st">"log"</span>):</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    sigma_daily <span class="op">=</span> calcula_desv_est(ticker, fecha_inicio, fecha_fin, kind<span class="op">=</span>returns_kind, ddof<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    sigma <span class="op">=</span> sigma_daily <span class="op">*</span> np.sqrt(TRADING_DAYS)  <span class="co"># anual</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    dt <span class="op">=</span> T_years <span class="op">/</span> N</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    u <span class="op">=</span> np.exp(sigma <span class="op">*</span> np.sqrt(dt))</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    d <span class="op">=</span> <span class="fl">1.0</span> <span class="op">/</span> u</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    p <span class="op">=</span> (np.exp(r <span class="op">*</span> dt) <span class="op">-</span> d) <span class="op">/</span> (u <span class="op">-</span> d)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    disc <span class="op">=</span> np.exp(<span class="op">-</span>r <span class="op">*</span> dt)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    S0 <span class="op">=</span> ultimo_precio(ticker, fecha_inicio, fecha_fin)</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    j <span class="op">=</span> np.arange(N <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    S_T <span class="op">=</span> S0 <span class="op">*</span> (u <span class="op">**</span> j) <span class="op">*</span> (d <span class="op">**</span> (N <span class="op">-</span> j))</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    V <span class="op">=</span> np.maximum(S_T <span class="op">-</span> K, <span class="fl">0.0</span>) <span class="cf">if</span> tipo <span class="op">==</span> <span class="st">"call"</span> <span class="cf">else</span> np.maximum(K <span class="op">-</span> S_T, <span class="fl">0.0</span>)</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(N <span class="op">-</span> <span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>):</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>        j <span class="op">=</span> np.arange(i <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>        S_i <span class="op">=</span> S0 <span class="op">*</span> (u <span class="op">**</span> j) <span class="op">*</span> (d <span class="op">**</span> (i <span class="op">-</span> j))</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>        V <span class="op">=</span> disc <span class="op">*</span> (p <span class="op">*</span> V[<span class="dv">1</span>:] <span class="op">+</span> (<span class="dv">1</span> <span class="op">-</span> p) <span class="op">*</span> V[:<span class="op">-</span><span class="dv">1</span>])</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>        V <span class="op">=</span> np.maximum(V, S_i <span class="op">-</span> K) <span class="cf">if</span> tipo <span class="op">==</span> <span class="st">"call"</span> <span class="cf">else</span> np.maximum(V, K <span class="op">-</span> S_i)</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">float</span>(V[<span class="dv">0</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+<section id="binomial-americana-portafolio" class="level1">
+<h1>BINOMIAL AMERICANA (portafolio)</h1>
+<div id="eaf1c22d" class="cell" data-execution_count="6">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> arbol_americano_portafolio(ticker1, ticker2, w, fecha_inicio, fecha_fin, K, T_years, r, N,</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>                               tipo<span class="op">=</span><span class="st">"call"</span>, returns_kind<span class="op">=</span><span class="st">"log"</span>):</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    sig1_daily <span class="op">=</span> calcula_desv_est(ticker1, fecha_inicio, fecha_fin, kind<span class="op">=</span>returns_kind, ddof<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    sig2_daily <span class="op">=</span> calcula_desv_est(ticker2, fecha_inicio, fecha_fin, kind<span class="op">=</span>returns_kind, ddof<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    sig1 <span class="op">=</span> sig1_daily <span class="op">*</span> np.sqrt(TRADING_DAYS)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    sig2 <span class="op">=</span> sig2_daily <span class="op">*</span> np.sqrt(TRADING_DAYS)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    rho <span class="op">=</span> calcula_correlacion(ticker1, ticker2, fecha_inicio, fecha_fin, kind<span class="op">=</span>returns_kind)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    sigmaP <span class="op">=</span> math.sqrt((w<span class="op">**</span><span class="dv">2</span>) <span class="op">*</span> (sig1<span class="op">**</span><span class="dv">2</span>) <span class="op">+</span> ((<span class="dv">1</span><span class="op">-</span>w)<span class="op">**</span><span class="dv">2</span>) <span class="op">*</span> (sig2<span class="op">**</span><span class="dv">2</span>) <span class="op">+</span> <span class="dv">2</span><span class="op">*</span>w<span class="op">*</span>(<span class="dv">1</span><span class="op">-</span>w)<span class="op">*</span>rho<span class="op">*</span>sig1<span class="op">*</span>sig2)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    dt <span class="op">=</span> T_years <span class="op">/</span> N</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    u <span class="op">=</span> np.exp(sigmaP <span class="op">*</span> np.sqrt(dt))</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    d <span class="op">=</span> <span class="fl">1.0</span> <span class="op">/</span> u</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    p <span class="op">=</span> (np.exp(r <span class="op">*</span> dt) <span class="op">-</span> d) <span class="op">/</span> (u <span class="op">-</span> d)</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    disc <span class="op">=</span> np.exp(<span class="op">-</span>r <span class="op">*</span> dt)</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    S01 <span class="op">=</span> ultimo_precio(ticker1, fecha_inicio, fecha_fin)</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    S02 <span class="op">=</span> ultimo_precio(ticker2, fecha_inicio, fecha_fin)</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    S0 <span class="op">=</span> w <span class="op">*</span> S01 <span class="op">+</span> (<span class="dv">1</span> <span class="op">-</span> w) <span class="op">*</span> S02</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>    j <span class="op">=</span> np.arange(N <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>    S_T <span class="op">=</span> S0 <span class="op">*</span> (u <span class="op">**</span> j) <span class="op">*</span> (d <span class="op">**</span> (N <span class="op">-</span> j))</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>    V <span class="op">=</span> np.maximum(S_T <span class="op">-</span> K, <span class="fl">0.0</span>) <span class="cf">if</span> tipo <span class="op">==</span> <span class="st">"call"</span> <span class="cf">else</span> np.maximum(K <span class="op">-</span> S_T, <span class="fl">0.0</span>)</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(N <span class="op">-</span> <span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>):</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>        j <span class="op">=</span> np.arange(i <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>        S_i <span class="op">=</span> S0 <span class="op">*</span> (u <span class="op">**</span> j) <span class="op">*</span> (d <span class="op">**</span> (i <span class="op">-</span> j))</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>        V <span class="op">=</span> disc <span class="op">*</span> (p <span class="op">*</span> V[<span class="dv">1</span>:] <span class="op">+</span> (<span class="dv">1</span> <span class="op">-</span> p) <span class="op">*</span> V[:<span class="op">-</span><span class="dv">1</span>])</span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>        V <span class="op">=</span> np.maximum(V, S_i <span class="op">-</span> K) <span class="cf">if</span> tipo <span class="op">==</span> <span class="st">"call"</span> <span class="cf">else</span> np.maximum(V, K <span class="op">-</span> S_i)</span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">float</span>(V[<span class="dv">0</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+<section id="payoffs-sin-globals" class="level1">
+<h1>PAYOFFS (sin globals)</h1>
+<div id="318c2e83" class="cell" data-execution_count="7">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> payoff_call(S, K):</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.maximum(S <span class="op">-</span> K, <span class="fl">0.0</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> payoff_put(S, K):</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.maximum(K <span class="op">-</span> S, <span class="fl">0.0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+<section id="simulación-gbm-1-activo-con-mu-histórica-p" class="level1">
+<h1>SIMULACIÓN GBM (1 activo) CON MU HISTÓRICA (P)</h1>
+<p>El modelo buscamos simular es el movimiento browniano geométrico (GBM):</p>
+<p>$ dS_t = S_t,dt + S_t,dW_t. $</p>
+<p>La discretización para un paso de tamaño <span class="math inline">\(\Delta t\)</span> es:</p>
+<p>$ S_{t+t} = S_t !( (- ^2)t + ,Z ), ZN(0,1). $</p>
+<p>Por lo que tenemos dos factores indispensables: - El <strong>drift</strong> se multiplica por <span class="math inline">\(\Delta t\)</span>. - El <strong>término aleatorio</strong> (browniano) se multiplica por <span class="math inline">\(\sqrt{\Delta t}\)</span>.</p>
+<p>En el código se construye <span class="math inline">\(W\)</span> como una suma acumulada de normales estándar, <span class="math inline">\(W=\sum Z\)</span>, y luego se usa $ S S_0( + W) $, lo cual equivale a asumir implícitamente <span class="math inline">\(\Delta t = 1\)</span> (un paso de “tamaño 1”) y además deja el parámetro <code>dt</code> sin afectar realmente la escala del proceso. Esto puede mezclar unidades (por ejemplo, interpretar <span class="math inline">\(T=252/2\)</span> como días mientras el proceso usa pasos de tamaño 1 sin conversion).</p>
+<p>La corrección consiste en introducir explícitamente el tamaño del paso: si el paso es de <code>dt_days</code> días y se trabaja en años, entonces $ t = . $ Con esto, la simulación correcta usa: $ S_{k+1} = S_k !( (- ^2)t + ,Z_k ). $</p>
+<p>Así, al cambiar <code>dt_days</code> o el horizonte <code>T_days</code>, el modelo se escala correctamente y las unidades de <span class="math inline">\(\mu\)</span>, <span class="math inline">\(\sigma\)</span> y el descuento (por ejemplo con <span class="math inline">\(e^{-r\Delta t}\)</span>) quedan consistentes.</p>
+<div id="25c11e1a" class="cell" data-execution_count="8">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> genera_simulaciones_individual(</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    ticker1, fecha_inicio, fecha_fin,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    num_sims, dt_days, T_days,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    returns_kind<span class="op">=</span><span class="st">"log"</span>,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    seed<span class="op">=</span><span class="va">None</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>):</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co">    Simula GBM con drift = mu histórica (medida P).</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co">    - dt_days: paso en días (1 diario)</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co">    - T_days: horizonte total en días (ej. 252/2)</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co">    Retorna array (num_sims, steps+1) incluyendo S0.</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    rng <span class="op">=</span> np.random.default_rng(seed)</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    close <span class="op">=</span> get_close(ticker1, fecha_inicio, fecha_fin)[ticker1]</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    rets <span class="op">=</span> returns_from_close(close.to_frame(<span class="st">"x"</span>), kind<span class="op">=</span>returns_kind)[<span class="st">"x"</span>]</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    mu_daily <span class="op">=</span> <span class="bu">float</span>(rets.mean())</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>    sig_daily <span class="op">=</span> <span class="bu">float</span>(rets.std(ddof<span class="op">=</span><span class="dv">1</span>))</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>    S0 <span class="op">=</span> <span class="bu">float</span>(close.iloc[<span class="op">-</span><span class="dv">1</span>])</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>    steps <span class="op">=</span> <span class="bu">int</span>(T_days <span class="op">/</span> dt_days)</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>    dt <span class="op">=</span> dt_days <span class="op">/</span> TRADING_DAYS  <span class="co"># años por paso</span></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Se anualiza para usar fórmula continua anual</span></span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>    mu_annual <span class="op">=</span> mu_daily <span class="op">*</span> TRADING_DAYS</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>    sig_annual <span class="op">=</span> sig_daily <span class="op">*</span> np.sqrt(TRADING_DAYS)</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>    Z <span class="op">=</span> rng.normal(size<span class="op">=</span>(num_sims, steps))</span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>    inc <span class="op">=</span> (mu_annual <span class="op">-</span> <span class="fl">0.5</span> <span class="op">*</span> sig_annual<span class="op">**</span><span class="dv">2</span>) <span class="op">*</span> dt <span class="op">+</span> sig_annual <span class="op">*</span> np.sqrt(dt) <span class="op">*</span> Z</span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>    logS <span class="op">=</span> np.log(S0) <span class="op">+</span> np.cumsum(inc, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>    S <span class="op">=</span> np.exp(logS)</span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>    S <span class="op">=</span> np.concatenate([np.full((num_sims, <span class="dv">1</span>), S0), S], axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> S</span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> genera_df_simulaciones(ticker1, fecha_inicio, fecha_fin, num_sims, dt_days, T_days,</span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>                          returns_kind<span class="op">=</span><span class="st">"log"</span>, seed<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>    trayectorias <span class="op">=</span> genera_simulaciones_individual(</span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>        ticker1, fecha_inicio, fecha_fin,</span>
+<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a>        num_sims, dt_days, T_days,</span>
+<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a>        returns_kind<span class="op">=</span>returns_kind, seed<span class="op">=</span>seed</span>
+<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a>    steps <span class="op">=</span> trayectorias.shape[<span class="dv">1</span>] <span class="op">-</span> <span class="dv">1</span></span>
+<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> pd.DataFrame(trayectorias[:, <span class="dv">1</span>:])</span>
+<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a>    df.columns <span class="op">=</span> [<span class="bu">str</span>(i) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, steps <span class="op">+</span> <span class="dv">1</span>)]</span>
+<span id="cb8-49"><a href="#cb8-49" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+<section id="longstaffschwartz-1-activo" class="level1">
+<h1>LONGSTAFF–SCHWARTZ (1 activo)</h1>
+<div id="d7d185b6" class="cell" data-execution_count="9">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> ejercicio_americana_LS(</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    ticker1, fecha_inicio, fecha_fin,</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    num_sims, dt_days, T_days,</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    funcion_payoff, K, grados_pasado,</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    r,</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    returns_kind<span class="op">=</span><span class="st">"log"</span>,</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    seed<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    min_itm<span class="op">=</span><span class="dv">25</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>):</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co">    Devuelve [lst, df] como tú.</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="co">    - df: sims x steps (sin S0) con columnas "1"... "steps"</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="co">    - lst: lista de listas de índices ejercidos (se arma hacia atrás como tu lógica)</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> genera_df_simulaciones(</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>        ticker1, fecha_inicio, fecha_fin,</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>        num_sims, dt_days, T_days,</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>        returns_kind<span class="op">=</span>returns_kind, seed<span class="op">=</span>seed</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>    steps <span class="op">=</span> df.shape[<span class="dv">1</span>]</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>    dt <span class="op">=</span> dt_days <span class="op">/</span> TRADING_DAYS</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>    disc <span class="op">=</span> np.exp(<span class="op">-</span>r <span class="op">*</span> dt)</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>    paths <span class="op">=</span> df.to_numpy()</span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>    alive <span class="op">=</span> np.ones(num_sims, dtype<span class="op">=</span><span class="bu">bool</span>)</span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>    <span class="co"># payoff al vencimiento</span></span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>    cf <span class="op">=</span> funcion_payoff(paths[:, <span class="op">-</span><span class="dv">1</span>], K).astype(<span class="bu">float</span>)</span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>    lst <span class="op">=</span> []</span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>    lst.append(np.where((cf <span class="op">&gt;</span> <span class="dv">0</span>) <span class="op">&amp;</span> alive)[<span class="dv">0</span>].tolist())</span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>    <span class="co"># backward t = steps-1 ... 1</span></span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> t <span class="kw">in</span> <span class="bu">range</span>(steps <span class="op">-</span> <span class="dv">1</span>, <span class="dv">0</span>, <span class="op">-</span><span class="dv">1</span>):</span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>        cf_disc <span class="op">=</span> cf <span class="op">*</span> disc</span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a>        S_t <span class="op">=</span> paths[:, t <span class="op">-</span> <span class="dv">1</span>]</span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a>        intrinsic <span class="op">=</span> funcion_payoff(S_t, K).astype(<span class="bu">float</span>)</span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>        eligible <span class="op">=</span> alive <span class="op">&amp;</span> (intrinsic <span class="op">&gt;</span> <span class="dv">0</span>)</span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> eligible.<span class="bu">sum</span>() <span class="op">&lt;</span> min_itm:</span>
+<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a>            cf <span class="op">=</span> cf_disc</span>
+<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a>            lst.append([])</span>
+<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a>            <span class="cf">continue</span></span>
+<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a>        X <span class="op">=</span> S_t[eligible].reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a>        Y <span class="op">=</span> cf_disc[eligible].reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb9-48"><a href="#cb9-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-49"><a href="#cb9-49" aria-hidden="true" tabindex="-1"></a>        polin <span class="op">=</span> PolynomialFeatures(degree<span class="op">=</span>grados_pasado, include_bias<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb9-50"><a href="#cb9-50" aria-hidden="true" tabindex="-1"></a>        Xp <span class="op">=</span> polin.fit_transform(X)</span>
+<span id="cb9-51"><a href="#cb9-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-52"><a href="#cb9-52" aria-hidden="true" tabindex="-1"></a>        reg <span class="op">=</span> LinearRegression().fit(Xp, Y)</span>
+<span id="cb9-53"><a href="#cb9-53" aria-hidden="true" tabindex="-1"></a>        cont <span class="op">=</span> reg.predict(Xp).flatten()</span>
+<span id="cb9-54"><a href="#cb9-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-55"><a href="#cb9-55" aria-hidden="true" tabindex="-1"></a>        ex <span class="op">=</span> intrinsic[eligible] <span class="op">&gt;=</span> cont</span>
+<span id="cb9-56"><a href="#cb9-56" aria-hidden="true" tabindex="-1"></a>        idx_eligible <span class="op">=</span> np.where(eligible)[<span class="dv">0</span>]</span>
+<span id="cb9-57"><a href="#cb9-57" aria-hidden="true" tabindex="-1"></a>        idx_ex <span class="op">=</span> idx_eligible[ex]</span>
+<span id="cb9-58"><a href="#cb9-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-59"><a href="#cb9-59" aria-hidden="true" tabindex="-1"></a>        cf <span class="op">=</span> cf_disc.copy()</span>
+<span id="cb9-60"><a href="#cb9-60" aria-hidden="true" tabindex="-1"></a>        cf[idx_ex] <span class="op">=</span> intrinsic[idx_ex]</span>
+<span id="cb9-61"><a href="#cb9-61" aria-hidden="true" tabindex="-1"></a>        alive[idx_ex] <span class="op">=</span> <span class="va">False</span></span>
+<span id="cb9-62"><a href="#cb9-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-63"><a href="#cb9-63" aria-hidden="true" tabindex="-1"></a>        lst.append(idx_ex.tolist())</span>
+<span id="cb9-64"><a href="#cb9-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-65"><a href="#cb9-65" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [lst, df]</span>
+<span id="cb9-66"><a href="#cb9-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-67"><a href="#cb9-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-68"><a href="#cb9-68" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> obtiene_estrategia_LS(</span>
+<span id="cb9-69"><a href="#cb9-69" aria-hidden="true" tabindex="-1"></a>    ticker1, fecha_inicio, fecha_fin,</span>
+<span id="cb9-70"><a href="#cb9-70" aria-hidden="true" tabindex="-1"></a>    num_sims, dt_days, T_days,</span>
+<span id="cb9-71"><a href="#cb9-71" aria-hidden="true" tabindex="-1"></a>    funcion_payoff, K, grados_pasado,</span>
+<span id="cb9-72"><a href="#cb9-72" aria-hidden="true" tabindex="-1"></a>    r,</span>
+<span id="cb9-73"><a href="#cb9-73" aria-hidden="true" tabindex="-1"></a>    returns_kind<span class="op">=</span><span class="st">"log"</span>,</span>
+<span id="cb9-74"><a href="#cb9-74" aria-hidden="true" tabindex="-1"></a>    seed<span class="op">=</span><span class="va">None</span></span>
+<span id="cb9-75"><a href="#cb9-75" aria-hidden="true" tabindex="-1"></a>):</span>
+<span id="cb9-76"><a href="#cb9-76" aria-hidden="true" tabindex="-1"></a>    lst, df <span class="op">=</span> ejercicio_americana_LS(</span>
+<span id="cb9-77"><a href="#cb9-77" aria-hidden="true" tabindex="-1"></a>        ticker1, fecha_inicio, fecha_fin,</span>
+<span id="cb9-78"><a href="#cb9-78" aria-hidden="true" tabindex="-1"></a>        num_sims, dt_days, T_days,</span>
+<span id="cb9-79"><a href="#cb9-79" aria-hidden="true" tabindex="-1"></a>        funcion_payoff, K, grados_pasado,</span>
+<span id="cb9-80"><a href="#cb9-80" aria-hidden="true" tabindex="-1"></a>        r<span class="op">=</span>r, returns_kind<span class="op">=</span>returns_kind, seed<span class="op">=</span>seed</span>
+<span id="cb9-81"><a href="#cb9-81" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb9-82"><a href="#cb9-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-83"><a href="#cb9-83" aria-hidden="true" tabindex="-1"></a>    num_cols <span class="op">=</span> df.shape[<span class="dv">1</span>]</span>
+<span id="cb9-84"><a href="#cb9-84" aria-hidden="true" tabindex="-1"></a>    lst <span class="op">=</span> <span class="bu">list</span>(<span class="bu">reversed</span>(lst))  <span class="co"># orden temporal</span></span>
+<span id="cb9-85"><a href="#cb9-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-86"><a href="#cb9-86" aria-hidden="true" tabindex="-1"></a>    df_estrategia <span class="op">=</span> np.zeros((num_sims, num_cols), dtype<span class="op">=</span><span class="bu">int</span>)</span>
+<span id="cb9-87"><a href="#cb9-87" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(num_cols):</span>
+<span id="cb9-88"><a href="#cb9-88" aria-hidden="true" tabindex="-1"></a>        idx <span class="op">=</span> lst[j] <span class="cf">if</span> j <span class="op">&lt;</span> <span class="bu">len</span>(lst) <span class="cf">else</span> []</span>
+<span id="cb9-89"><a href="#cb9-89" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> idx:</span>
+<span id="cb9-90"><a href="#cb9-90" aria-hidden="true" tabindex="-1"></a>            df_estrategia[idx, j] <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb9-91"><a href="#cb9-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-92"><a href="#cb9-92" aria-hidden="true" tabindex="-1"></a>    lista_fechas_ejercicio <span class="op">=</span> []</span>
+<span id="cb9-93"><a href="#cb9-93" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(num_sims):</span>
+<span id="cb9-94"><a href="#cb9-94" aria-hidden="true" tabindex="-1"></a>        row <span class="op">=</span> df_estrategia[i, :]</span>
+<span id="cb9-95"><a href="#cb9-95" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> row.<span class="bu">sum</span>() <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb9-96"><a href="#cb9-96" aria-hidden="true" tabindex="-1"></a>            lista_fechas_ejercicio.append(<span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb9-97"><a href="#cb9-97" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb9-98"><a href="#cb9-98" aria-hidden="true" tabindex="-1"></a>            lista_fechas_ejercicio.append(<span class="bu">int</span>(np.argmax(row)))</span>
+<span id="cb9-99"><a href="#cb9-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-100"><a href="#cb9-100" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [lista_fechas_ejercicio, df]</span>
+<span id="cb9-101"><a href="#cb9-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-102"><a href="#cb9-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-103"><a href="#cb9-103" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calcula_precio_americana(</span>
+<span id="cb9-104"><a href="#cb9-104" aria-hidden="true" tabindex="-1"></a>    ticker1, fecha_inicio, fecha_fin,</span>
+<span id="cb9-105"><a href="#cb9-105" aria-hidden="true" tabindex="-1"></a>    num_sims, dt_days, T_days,</span>
+<span id="cb9-106"><a href="#cb9-106" aria-hidden="true" tabindex="-1"></a>    funcion_payoff, K, grados_pasado,</span>
+<span id="cb9-107"><a href="#cb9-107" aria-hidden="true" tabindex="-1"></a>    r,</span>
+<span id="cb9-108"><a href="#cb9-108" aria-hidden="true" tabindex="-1"></a>    returns_kind<span class="op">=</span><span class="st">"log"</span>,</span>
+<span id="cb9-109"><a href="#cb9-109" aria-hidden="true" tabindex="-1"></a>    seed<span class="op">=</span><span class="va">None</span></span>
+<span id="cb9-110"><a href="#cb9-110" aria-hidden="true" tabindex="-1"></a>):</span>
+<span id="cb9-111"><a href="#cb9-111" aria-hidden="true" tabindex="-1"></a>    lista_fechas_ejercicio, df <span class="op">=</span> obtiene_estrategia_LS(</span>
+<span id="cb9-112"><a href="#cb9-112" aria-hidden="true" tabindex="-1"></a>        ticker1, fecha_inicio, fecha_fin,</span>
+<span id="cb9-113"><a href="#cb9-113" aria-hidden="true" tabindex="-1"></a>        num_sims, dt_days, T_days,</span>
+<span id="cb9-114"><a href="#cb9-114" aria-hidden="true" tabindex="-1"></a>        funcion_payoff, K, grados_pasado,</span>
+<span id="cb9-115"><a href="#cb9-115" aria-hidden="true" tabindex="-1"></a>        r<span class="op">=</span>r, returns_kind<span class="op">=</span>returns_kind, seed<span class="op">=</span>seed</span>
+<span id="cb9-116"><a href="#cb9-116" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb9-117"><a href="#cb9-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-118"><a href="#cb9-118" aria-hidden="true" tabindex="-1"></a>    dt <span class="op">=</span> dt_days <span class="op">/</span> TRADING_DAYS</span>
+<span id="cb9-119"><a href="#cb9-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-120"><a href="#cb9-120" aria-hidden="true" tabindex="-1"></a>    payoff_ejercicio <span class="op">=</span> np.zeros(num_sims, dtype<span class="op">=</span><span class="bu">float</span>)</span>
+<span id="cb9-121"><a href="#cb9-121" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(num_sims):</span>
+<span id="cb9-122"><a href="#cb9-122" aria-hidden="true" tabindex="-1"></a>        t_idx <span class="op">=</span> lista_fechas_ejercicio[i]</span>
+<span id="cb9-123"><a href="#cb9-123" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> t_idx <span class="op">&lt;</span> <span class="dv">0</span>:</span>
+<span id="cb9-124"><a href="#cb9-124" aria-hidden="true" tabindex="-1"></a>            payoff_ejercicio[i] <span class="op">=</span> <span class="fl">0.0</span></span>
+<span id="cb9-125"><a href="#cb9-125" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb9-126"><a href="#cb9-126" aria-hidden="true" tabindex="-1"></a>            S_ex <span class="op">=</span> <span class="bu">float</span>(df.iloc[i, t_idx])</span>
+<span id="cb9-127"><a href="#cb9-127" aria-hidden="true" tabindex="-1"></a>            payoff_ejercicio[i] <span class="op">=</span> <span class="bu">float</span>(funcion_payoff(S_ex, K)) <span class="op">*</span> math.exp(<span class="op">-</span>r <span class="op">*</span> (t_idx <span class="op">+</span> <span class="dv">1</span>) <span class="op">*</span> dt)</span>
+<span id="cb9-128"><a href="#cb9-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-129"><a href="#cb9-129" aria-hidden="true" tabindex="-1"></a>    estrategia_ejercicio <span class="op">=</span> [np.nan <span class="cf">if</span> t <span class="op">&lt;</span> <span class="dv">0</span> <span class="cf">else</span> t <span class="cf">for</span> t <span class="kw">in</span> lista_fechas_ejercicio]</span>
+<span id="cb9-130"><a href="#cb9-130" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [<span class="bu">float</span>(np.mean(payoff_ejercicio)), estrategia_ejercicio]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+<section id="simulación-correlacionada-2-activos-con-mu-histórica-p" class="level1">
+<h1>SIMULACIÓN CORRELACIONADA (2 activos) CON MU HISTÓRICA (P)</h1>
+<div id="12a27260" class="cell" data-execution_count="10">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> genera_simulaciones_correlacionadas(</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    ticker1, ticker2,</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    fecha_inicio, fecha_fin,</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    num_sims, dt_days, T_days,</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    returns_kind<span class="op">=</span><span class="st">"log"</span>,</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    seed<span class="op">=</span><span class="va">None</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>):</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    rng <span class="op">=</span> np.random.default_rng(seed)</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    close <span class="op">=</span> get_close([ticker1, ticker2], fecha_inicio, fecha_fin)[[ticker1, ticker2]]</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    rets <span class="op">=</span> returns_from_close(close, kind<span class="op">=</span>returns_kind)</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    mu1_daily <span class="op">=</span> <span class="bu">float</span>(rets[ticker1].mean())<span class="op">;</span> sig1_daily <span class="op">=</span> <span class="bu">float</span>(rets[ticker1].std(ddof<span class="op">=</span><span class="dv">1</span>))</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    mu2_daily <span class="op">=</span> <span class="bu">float</span>(rets[ticker2].mean())<span class="op">;</span> sig2_daily <span class="op">=</span> <span class="bu">float</span>(rets[ticker2].std(ddof<span class="op">=</span><span class="dv">1</span>))</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>    rho <span class="op">=</span> <span class="bu">float</span>(rets.corr().iloc[<span class="dv">0</span>, <span class="dv">1</span>])</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>    S01 <span class="op">=</span> <span class="bu">float</span>(close[ticker1].iloc[<span class="op">-</span><span class="dv">1</span>])</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    S02 <span class="op">=</span> <span class="bu">float</span>(close[ticker2].iloc[<span class="op">-</span><span class="dv">1</span>])</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>    steps <span class="op">=</span> <span class="bu">int</span>(T_days <span class="op">/</span> dt_days)</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>    dt <span class="op">=</span> dt_days <span class="op">/</span> TRADING_DAYS</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>    mu1_annual <span class="op">=</span> mu1_daily <span class="op">*</span> TRADING_DAYS</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>    mu2_annual <span class="op">=</span> mu2_daily <span class="op">*</span> TRADING_DAYS</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>    sig1_annual <span class="op">=</span> sig1_daily <span class="op">*</span> np.sqrt(TRADING_DAYS)</span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>    sig2_annual <span class="op">=</span> sig2_daily <span class="op">*</span> np.sqrt(TRADING_DAYS)</span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>    C <span class="op">=</span> np.array([[<span class="fl">1.0</span>, rho], [rho, <span class="fl">1.0</span>]])</span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>    L <span class="op">=</span> np.linalg.cholesky(C)</span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>    Z <span class="op">=</span> rng.normal(size<span class="op">=</span>(num_sims, steps, <span class="dv">2</span>))</span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>    EZ <span class="op">=</span> Z <span class="op">@</span> L.T</span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>    inc1 <span class="op">=</span> (mu1_annual <span class="op">-</span> <span class="fl">0.5</span> <span class="op">*</span> sig1_annual<span class="op">**</span><span class="dv">2</span>) <span class="op">*</span> dt <span class="op">+</span> sig1_annual <span class="op">*</span> np.sqrt(dt) <span class="op">*</span> EZ[:, :, <span class="dv">0</span>]</span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>    inc2 <span class="op">=</span> (mu2_annual <span class="op">-</span> <span class="fl">0.5</span> <span class="op">*</span> sig2_annual<span class="op">**</span><span class="dv">2</span>) <span class="op">*</span> dt <span class="op">+</span> sig2_annual <span class="op">*</span> np.sqrt(dt) <span class="op">*</span> EZ[:, :, <span class="dv">1</span>]</span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>    S1 <span class="op">=</span> np.exp(np.log(S01) <span class="op">+</span> np.cumsum(inc1, axis<span class="op">=</span><span class="dv">1</span>))</span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>    S2 <span class="op">=</span> np.exp(np.log(S02) <span class="op">+</span> np.cumsum(inc2, axis<span class="op">=</span><span class="dv">1</span>))</span>
+<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a>    S1 <span class="op">=</span> np.concatenate([np.full((num_sims, <span class="dv">1</span>), S01), S1], axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a>    S2 <span class="op">=</span> np.concatenate([np.full((num_sims, <span class="dv">1</span>), S02), S2], axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [S1, S2]</span>
+<span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-46"><a href="#cb10-46" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> genera_df_portafolio(</span>
+<span id="cb10-47"><a href="#cb10-47" aria-hidden="true" tabindex="-1"></a>    w, ticker1, ticker2,</span>
+<span id="cb10-48"><a href="#cb10-48" aria-hidden="true" tabindex="-1"></a>    fecha_inicio, fecha_fin,</span>
+<span id="cb10-49"><a href="#cb10-49" aria-hidden="true" tabindex="-1"></a>    num_sims, dt_days, T_days,</span>
+<span id="cb10-50"><a href="#cb10-50" aria-hidden="true" tabindex="-1"></a>    returns_kind<span class="op">=</span><span class="st">"log"</span>,</span>
+<span id="cb10-51"><a href="#cb10-51" aria-hidden="true" tabindex="-1"></a>    seed<span class="op">=</span><span class="va">None</span></span>
+<span id="cb10-52"><a href="#cb10-52" aria-hidden="true" tabindex="-1"></a>):</span>
+<span id="cb10-53"><a href="#cb10-53" aria-hidden="true" tabindex="-1"></a>    S1, S2 <span class="op">=</span> genera_simulaciones_correlacionadas(</span>
+<span id="cb10-54"><a href="#cb10-54" aria-hidden="true" tabindex="-1"></a>        ticker1, ticker2,</span>
+<span id="cb10-55"><a href="#cb10-55" aria-hidden="true" tabindex="-1"></a>        fecha_inicio, fecha_fin,</span>
+<span id="cb10-56"><a href="#cb10-56" aria-hidden="true" tabindex="-1"></a>        num_sims, dt_days, T_days,</span>
+<span id="cb10-57"><a href="#cb10-57" aria-hidden="true" tabindex="-1"></a>        returns_kind<span class="op">=</span>returns_kind, seed<span class="op">=</span>seed</span>
+<span id="cb10-58"><a href="#cb10-58" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb10-59"><a href="#cb10-59" aria-hidden="true" tabindex="-1"></a>    P <span class="op">=</span> w <span class="op">*</span> S1 <span class="op">+</span> (<span class="dv">1</span> <span class="op">-</span> w) <span class="op">*</span> S2</span>
+<span id="cb10-60"><a href="#cb10-60" aria-hidden="true" tabindex="-1"></a>    steps <span class="op">=</span> P.shape[<span class="dv">1</span>] <span class="op">-</span> <span class="dv">1</span></span>
+<span id="cb10-61"><a href="#cb10-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-62"><a href="#cb10-62" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> pd.DataFrame(P[:, <span class="dv">1</span>:])</span>
+<span id="cb10-63"><a href="#cb10-63" aria-hidden="true" tabindex="-1"></a>    df.columns <span class="op">=</span> [<span class="bu">str</span>(i) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, steps <span class="op">+</span> <span class="dv">1</span>)]</span>
+<span id="cb10-64"><a href="#cb10-64" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+<section id="longstaffschwartz-portafolio" class="level1">
+<h1>LONGSTAFF–SCHWARTZ (PORTAFOLIO)</h1>
+<div id="afa83ceb" class="cell" data-execution_count="11">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> ejercicio_americana_LS_port(</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    w, ticker1, ticker2,</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    fecha_inicio, fecha_fin,</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    num_sims, dt_days, T_days,</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    funcion_payoff, K, grados_pasado,</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    r,</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    returns_kind<span class="op">=</span><span class="st">"log"</span>,</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    seed<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    min_itm<span class="op">=</span><span class="dv">25</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>):</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> genera_df_portafolio(</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>        w, ticker1, ticker2,</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>        fecha_inicio, fecha_fin,</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>        num_sims, dt_days, T_days,</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>        returns_kind<span class="op">=</span>returns_kind, seed<span class="op">=</span>seed</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>    steps <span class="op">=</span> df.shape[<span class="dv">1</span>]</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>    dt <span class="op">=</span> dt_days <span class="op">/</span> TRADING_DAYS</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>    disc <span class="op">=</span> np.exp(<span class="op">-</span>r <span class="op">*</span> dt)</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>    paths <span class="op">=</span> df.to_numpy()</span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>    alive <span class="op">=</span> np.ones(num_sims, dtype<span class="op">=</span><span class="bu">bool</span>)</span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>    cf <span class="op">=</span> funcion_payoff(paths[:, <span class="op">-</span><span class="dv">1</span>], K).astype(<span class="bu">float</span>)</span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>    lst <span class="op">=</span> []</span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>    lst.append(np.where((cf <span class="op">&gt;</span> <span class="dv">0</span>) <span class="op">&amp;</span> alive)[<span class="dv">0</span>].tolist())</span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> t <span class="kw">in</span> <span class="bu">range</span>(steps <span class="op">-</span> <span class="dv">1</span>, <span class="dv">0</span>, <span class="op">-</span><span class="dv">1</span>):</span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>        cf_disc <span class="op">=</span> cf <span class="op">*</span> disc</span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>        S_t <span class="op">=</span> paths[:, t <span class="op">-</span> <span class="dv">1</span>]</span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a>        intrinsic <span class="op">=</span> funcion_payoff(S_t, K).astype(<span class="bu">float</span>)</span>
+<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>        eligible <span class="op">=</span> alive <span class="op">&amp;</span> (intrinsic <span class="op">&gt;</span> <span class="dv">0</span>)</span>
+<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> eligible.<span class="bu">sum</span>() <span class="op">&lt;</span> min_itm:</span>
+<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a>            cf <span class="op">=</span> cf_disc</span>
+<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a>            lst.append([])</span>
+<span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a>            <span class="cf">continue</span></span>
+<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-41"><a href="#cb11-41" aria-hidden="true" tabindex="-1"></a>        X <span class="op">=</span> S_t[eligible].reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb11-42"><a href="#cb11-42" aria-hidden="true" tabindex="-1"></a>        Y <span class="op">=</span> cf_disc[eligible].reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb11-43"><a href="#cb11-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-44"><a href="#cb11-44" aria-hidden="true" tabindex="-1"></a>        polin <span class="op">=</span> PolynomialFeatures(degree<span class="op">=</span>grados_pasado, include_bias<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb11-45"><a href="#cb11-45" aria-hidden="true" tabindex="-1"></a>        Xp <span class="op">=</span> polin.fit_transform(X)</span>
+<span id="cb11-46"><a href="#cb11-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-47"><a href="#cb11-47" aria-hidden="true" tabindex="-1"></a>        reg <span class="op">=</span> LinearRegression().fit(Xp, Y)</span>
+<span id="cb11-48"><a href="#cb11-48" aria-hidden="true" tabindex="-1"></a>        cont <span class="op">=</span> reg.predict(Xp).flatten()</span>
+<span id="cb11-49"><a href="#cb11-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-50"><a href="#cb11-50" aria-hidden="true" tabindex="-1"></a>        ex <span class="op">=</span> intrinsic[eligible] <span class="op">&gt;=</span> cont</span>
+<span id="cb11-51"><a href="#cb11-51" aria-hidden="true" tabindex="-1"></a>        idx_eligible <span class="op">=</span> np.where(eligible)[<span class="dv">0</span>]</span>
+<span id="cb11-52"><a href="#cb11-52" aria-hidden="true" tabindex="-1"></a>        idx_ex <span class="op">=</span> idx_eligible[ex]</span>
+<span id="cb11-53"><a href="#cb11-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-54"><a href="#cb11-54" aria-hidden="true" tabindex="-1"></a>        cf <span class="op">=</span> cf_disc.copy()</span>
+<span id="cb11-55"><a href="#cb11-55" aria-hidden="true" tabindex="-1"></a>        cf[idx_ex] <span class="op">=</span> intrinsic[idx_ex]</span>
+<span id="cb11-56"><a href="#cb11-56" aria-hidden="true" tabindex="-1"></a>        alive[idx_ex] <span class="op">=</span> <span class="va">False</span></span>
+<span id="cb11-57"><a href="#cb11-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-58"><a href="#cb11-58" aria-hidden="true" tabindex="-1"></a>        lst.append(idx_ex.tolist())</span>
+<span id="cb11-59"><a href="#cb11-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-60"><a href="#cb11-60" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [lst, df]</span>
+<span id="cb11-61"><a href="#cb11-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-62"><a href="#cb11-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-63"><a href="#cb11-63" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> obtiene_estrategia_LS_port(</span>
+<span id="cb11-64"><a href="#cb11-64" aria-hidden="true" tabindex="-1"></a>    w, ticker1, ticker2,</span>
+<span id="cb11-65"><a href="#cb11-65" aria-hidden="true" tabindex="-1"></a>    fecha_inicio, fecha_fin,</span>
+<span id="cb11-66"><a href="#cb11-66" aria-hidden="true" tabindex="-1"></a>    num_sims, dt_days, T_days,</span>
+<span id="cb11-67"><a href="#cb11-67" aria-hidden="true" tabindex="-1"></a>    funcion_payoff, K, grados_pasado,</span>
+<span id="cb11-68"><a href="#cb11-68" aria-hidden="true" tabindex="-1"></a>    r,</span>
+<span id="cb11-69"><a href="#cb11-69" aria-hidden="true" tabindex="-1"></a>    returns_kind<span class="op">=</span><span class="st">"log"</span>,</span>
+<span id="cb11-70"><a href="#cb11-70" aria-hidden="true" tabindex="-1"></a>    seed<span class="op">=</span><span class="va">None</span></span>
+<span id="cb11-71"><a href="#cb11-71" aria-hidden="true" tabindex="-1"></a>):</span>
+<span id="cb11-72"><a href="#cb11-72" aria-hidden="true" tabindex="-1"></a>    lst, df <span class="op">=</span> ejercicio_americana_LS_port(</span>
+<span id="cb11-73"><a href="#cb11-73" aria-hidden="true" tabindex="-1"></a>        w, ticker1, ticker2,</span>
+<span id="cb11-74"><a href="#cb11-74" aria-hidden="true" tabindex="-1"></a>        fecha_inicio, fecha_fin,</span>
+<span id="cb11-75"><a href="#cb11-75" aria-hidden="true" tabindex="-1"></a>        num_sims, dt_days, T_days,</span>
+<span id="cb11-76"><a href="#cb11-76" aria-hidden="true" tabindex="-1"></a>        funcion_payoff, K, grados_pasado,</span>
+<span id="cb11-77"><a href="#cb11-77" aria-hidden="true" tabindex="-1"></a>        r<span class="op">=</span>r, returns_kind<span class="op">=</span>returns_kind, seed<span class="op">=</span>seed</span>
+<span id="cb11-78"><a href="#cb11-78" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb11-79"><a href="#cb11-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-80"><a href="#cb11-80" aria-hidden="true" tabindex="-1"></a>    num_cols <span class="op">=</span> df.shape[<span class="dv">1</span>]</span>
+<span id="cb11-81"><a href="#cb11-81" aria-hidden="true" tabindex="-1"></a>    lst <span class="op">=</span> <span class="bu">list</span>(<span class="bu">reversed</span>(lst))</span>
+<span id="cb11-82"><a href="#cb11-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-83"><a href="#cb11-83" aria-hidden="true" tabindex="-1"></a>    df_estrategia <span class="op">=</span> np.zeros((num_sims, num_cols), dtype<span class="op">=</span><span class="bu">int</span>)</span>
+<span id="cb11-84"><a href="#cb11-84" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(num_cols):</span>
+<span id="cb11-85"><a href="#cb11-85" aria-hidden="true" tabindex="-1"></a>        idx <span class="op">=</span> lst[j] <span class="cf">if</span> j <span class="op">&lt;</span> <span class="bu">len</span>(lst) <span class="cf">else</span> []</span>
+<span id="cb11-86"><a href="#cb11-86" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> idx:</span>
+<span id="cb11-87"><a href="#cb11-87" aria-hidden="true" tabindex="-1"></a>            df_estrategia[idx, j] <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb11-88"><a href="#cb11-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-89"><a href="#cb11-89" aria-hidden="true" tabindex="-1"></a>    lista_fechas_ejercicio <span class="op">=</span> []</span>
+<span id="cb11-90"><a href="#cb11-90" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(num_sims):</span>
+<span id="cb11-91"><a href="#cb11-91" aria-hidden="true" tabindex="-1"></a>        row <span class="op">=</span> df_estrategia[i, :]</span>
+<span id="cb11-92"><a href="#cb11-92" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> row.<span class="bu">sum</span>() <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb11-93"><a href="#cb11-93" aria-hidden="true" tabindex="-1"></a>            lista_fechas_ejercicio.append(<span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb11-94"><a href="#cb11-94" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb11-95"><a href="#cb11-95" aria-hidden="true" tabindex="-1"></a>            lista_fechas_ejercicio.append(<span class="bu">int</span>(np.argmax(row)))</span>
+<span id="cb11-96"><a href="#cb11-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-97"><a href="#cb11-97" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [lista_fechas_ejercicio, df]</span>
+<span id="cb11-98"><a href="#cb11-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-99"><a href="#cb11-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-100"><a href="#cb11-100" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calcula_precio_americana_port(</span>
+<span id="cb11-101"><a href="#cb11-101" aria-hidden="true" tabindex="-1"></a>    w, ticker1, ticker2,</span>
+<span id="cb11-102"><a href="#cb11-102" aria-hidden="true" tabindex="-1"></a>    fecha_inicio, fecha_fin,</span>
+<span id="cb11-103"><a href="#cb11-103" aria-hidden="true" tabindex="-1"></a>    num_sims, dt_days, T_days,</span>
+<span id="cb11-104"><a href="#cb11-104" aria-hidden="true" tabindex="-1"></a>    funcion_payoff, K, grados_pasado,</span>
+<span id="cb11-105"><a href="#cb11-105" aria-hidden="true" tabindex="-1"></a>    r,</span>
+<span id="cb11-106"><a href="#cb11-106" aria-hidden="true" tabindex="-1"></a>    returns_kind<span class="op">=</span><span class="st">"log"</span>,</span>
+<span id="cb11-107"><a href="#cb11-107" aria-hidden="true" tabindex="-1"></a>    seed<span class="op">=</span><span class="va">None</span></span>
+<span id="cb11-108"><a href="#cb11-108" aria-hidden="true" tabindex="-1"></a>):</span>
+<span id="cb11-109"><a href="#cb11-109" aria-hidden="true" tabindex="-1"></a>    lista_fechas_ejercicio, df <span class="op">=</span> obtiene_estrategia_LS_port(</span>
+<span id="cb11-110"><a href="#cb11-110" aria-hidden="true" tabindex="-1"></a>        w, ticker1, ticker2,</span>
+<span id="cb11-111"><a href="#cb11-111" aria-hidden="true" tabindex="-1"></a>        fecha_inicio, fecha_fin,</span>
+<span id="cb11-112"><a href="#cb11-112" aria-hidden="true" tabindex="-1"></a>        num_sims, dt_days, T_days,</span>
+<span id="cb11-113"><a href="#cb11-113" aria-hidden="true" tabindex="-1"></a>        funcion_payoff, K, grados_pasado,</span>
+<span id="cb11-114"><a href="#cb11-114" aria-hidden="true" tabindex="-1"></a>        r<span class="op">=</span>r, returns_kind<span class="op">=</span>returns_kind, seed<span class="op">=</span>seed</span>
+<span id="cb11-115"><a href="#cb11-115" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb11-116"><a href="#cb11-116" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-117"><a href="#cb11-117" aria-hidden="true" tabindex="-1"></a>    dt <span class="op">=</span> dt_days <span class="op">/</span> TRADING_DAYS</span>
+<span id="cb11-118"><a href="#cb11-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-119"><a href="#cb11-119" aria-hidden="true" tabindex="-1"></a>    payoff_ejercicio <span class="op">=</span> np.zeros(num_sims, dtype<span class="op">=</span><span class="bu">float</span>)</span>
+<span id="cb11-120"><a href="#cb11-120" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(num_sims):</span>
+<span id="cb11-121"><a href="#cb11-121" aria-hidden="true" tabindex="-1"></a>        t_idx <span class="op">=</span> lista_fechas_ejercicio[i]</span>
+<span id="cb11-122"><a href="#cb11-122" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> t_idx <span class="op">&lt;</span> <span class="dv">0</span>:</span>
+<span id="cb11-123"><a href="#cb11-123" aria-hidden="true" tabindex="-1"></a>            payoff_ejercicio[i] <span class="op">=</span> <span class="fl">0.0</span></span>
+<span id="cb11-124"><a href="#cb11-124" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb11-125"><a href="#cb11-125" aria-hidden="true" tabindex="-1"></a>            S_ex <span class="op">=</span> <span class="bu">float</span>(df.iloc[i, t_idx])</span>
+<span id="cb11-126"><a href="#cb11-126" aria-hidden="true" tabindex="-1"></a>            payoff_ejercicio[i] <span class="op">=</span> <span class="bu">float</span>(funcion_payoff(S_ex, K)) <span class="op">*</span> math.exp(<span class="op">-</span>r <span class="op">*</span> (t_idx <span class="op">+</span> <span class="dv">1</span>) <span class="op">*</span> dt)</span>
+<span id="cb11-127"><a href="#cb11-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-128"><a href="#cb11-128" aria-hidden="true" tabindex="-1"></a>    estrategia_ejercicio <span class="op">=</span> [np.nan <span class="cf">if</span> t <span class="op">&lt;</span> <span class="dv">0</span> <span class="cf">else</span> t <span class="cf">for</span> t <span class="kw">in</span> lista_fechas_ejercicio]</span>
+<span id="cb11-129"><a href="#cb11-129" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [<span class="bu">float</span>(np.mean(payoff_ejercicio)), estrategia_ejercicio]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+<section id="histograma" class="level1">
+<h1>HISTOGRAMA</h1>
+<div id="7c4a8b31" class="cell" data-execution_count="12">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_hist_ejercicio(estrategia_ejercicio, T_days, titulo<span class="op">=</span><span class="st">"Histograma ejercicio"</span>):</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    ej <span class="op">=</span> np.array(estrategia_ejercicio, dtype<span class="op">=</span><span class="bu">float</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    valid <span class="op">=</span> ej[<span class="op">~</span>np.isnan(ej)]</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    plt.figure()</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    plt.hist(valid, bins<span class="op">=</span><span class="bu">max</span>(<span class="dv">10</span>, <span class="bu">int</span>(T_days <span class="op">/</span> <span class="dv">2</span>)))</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="ss">f"</span><span class="sc">{</span>titulo<span class="sc">}</span><span class="ss"> | no ejerció: </span><span class="sc">{</span>np<span class="sc">.</span>isnan(ej)<span class="sc">.</span><span class="bu">sum</span>()<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">"Índice de tiempo "</span>)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">"Frecuencia"</span>)</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+<section id="ejemplos-de-uso" class="level1">
+<h1>EJEMPLOS DE USO</h1>
+<div id="3c07fda0" class="cell" data-execution_count="13">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">"__main__"</span>:</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    ticker1 <span class="op">=</span> <span class="st">"AAPL"</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    ticker2 <span class="op">=</span> <span class="st">"SBUX"</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    fecha_inicio <span class="op">=</span> <span class="st">"2021-01-01"</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    fecha_fin <span class="op">=</span> <span class="st">"2022-03-31"</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    r <span class="op">=</span> <span class="fl">0.06</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    dt_days <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    T_days <span class="op">=</span> <span class="dv">252</span> <span class="op">/</span> <span class="dv">2</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    num_sims <span class="op">=</span> <span class="dv">10000</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    grados_pasado <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># strike ejemplo como tú</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    K <span class="op">=</span> ultimo_precio(ticker1, fecha_inicio, fecha_fin)</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># --- LS single (simulación con mu histórica) ---</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>    precio, ejercicios <span class="op">=</span> calcula_precio_americana(</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>        ticker1, fecha_inicio, fecha_fin,</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>        num_sims<span class="op">=</span>num_sims, dt_days<span class="op">=</span>dt_days, T_days<span class="op">=</span>T_days,</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>        funcion_payoff<span class="op">=</span>payoff_put, K<span class="op">=</span>K, grados_pasado<span class="op">=</span>grados_pasado,</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>        r<span class="op">=</span>r, seed<span class="op">=</span><span class="dv">123</span></span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Precio LS (single, put, con mu):"</span>, precio)</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>    plot_hist_ejercicio(ejercicios, T_days, <span class="st">"Ejercicio (single)"</span>)</span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>    <span class="co"># --- LS portafolio (simulación con mu histórica) ---</span></span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>    w <span class="op">=</span> <span class="fl">0.7</span></span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>    K1 <span class="op">=</span> ultimo_precio(ticker1, fecha_inicio, fecha_fin)</span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>    K2 <span class="op">=</span> ultimo_precio(ticker2, fecha_inicio, fecha_fin)</span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>    Kp <span class="op">=</span> w <span class="op">*</span> K1 <span class="op">+</span> (<span class="dv">1</span> <span class="op">-</span> w) <span class="op">*</span> K2</span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>    precio_p, ejercicios_p <span class="op">=</span> calcula_precio_americana_port(</span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>        w, ticker1, ticker2,</span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>        fecha_inicio, fecha_fin,</span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>        num_sims<span class="op">=</span>num_sims, dt_days<span class="op">=</span>dt_days, T_days<span class="op">=</span>T_days,</span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>        funcion_payoff<span class="op">=</span>payoff_put, K<span class="op">=</span>Kp, grados_pasado<span class="op">=</span>grados_pasado,</span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>        r<span class="op">=</span>r, seed<span class="op">=</span><span class="dv">123</span></span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Precio LS (port, put, con mu):"</span>, precio_p)</span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a>    plot_hist_ejercicio(ejercicios_p, T_days, <span class="st">"Ejercicio (portafolio)"</span>)</span>
+<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a>    <span class="co"># --- Binomial sola ---</span></span>
+<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a>    precio_bin <span class="op">=</span> arbol_americano(</span>
+<span id="cb13-44"><a href="#cb13-44" aria-hidden="true" tabindex="-1"></a>        ticker1, fecha_inicio, fecha_fin,</span>
+<span id="cb13-45"><a href="#cb13-45" aria-hidden="true" tabindex="-1"></a>        K<span class="op">=</span><span class="dv">170</span>, T_years<span class="op">=</span><span class="fl">1.0</span>, r<span class="op">=</span>r, N<span class="op">=</span><span class="dv">100</span>, tipo<span class="op">=</span><span class="st">"call"</span></span>
+<span id="cb13-46"><a href="#cb13-46" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb13-47"><a href="#cb13-47" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Precio Binomial (single, call):"</span>, precio_bin)</span>
+<span id="cb13-48"><a href="#cb13-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-49"><a href="#cb13-49" aria-hidden="true" tabindex="-1"></a>    <span class="co"># --- Binomial port ---</span></span>
+<span id="cb13-50"><a href="#cb13-50" aria-hidden="true" tabindex="-1"></a>    K_port_bin <span class="op">=</span> (K1 <span class="op">+</span> K2) <span class="op">/</span> <span class="dv">2</span></span>
+<span id="cb13-51"><a href="#cb13-51" aria-hidden="true" tabindex="-1"></a>    precio_bin_port <span class="op">=</span> arbol_americano_portafolio(</span>
+<span id="cb13-52"><a href="#cb13-52" aria-hidden="true" tabindex="-1"></a>        ticker1, ticker2, w, fecha_inicio, fecha_fin,</span>
+<span id="cb13-53"><a href="#cb13-53" aria-hidden="true" tabindex="-1"></a>        K<span class="op">=</span>K_port_bin, T_years<span class="op">=</span><span class="fl">1.0</span>, r<span class="op">=</span>r, N<span class="op">=</span><span class="dv">100</span>, tipo<span class="op">=</span><span class="st">"call"</span></span>
+<span id="cb13-54"><a href="#cb13-54" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb13-55"><a href="#cb13-55" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Precio Binomial (port, call):"</span>, precio_bin_port)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Precio LS (single, put, con mu): 5.784538404438282</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Correcciones2_files/figure-html/cell-14-output-2.png" width="602" height="453" class="figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Precio LS (port, put, con mu): 5.0248954124682</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Correcciones2_files/figure-html/cell-14-output-4.png" width="601" height="453" class="figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Precio Binomial (single, call): 25.408064735121048
+Precio Binomial (port, call): 29.09888459709687</code></pre>
+</div>
+</div>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
