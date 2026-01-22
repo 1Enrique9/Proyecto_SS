@@ -13,7 +13,7 @@ Incluye descarga de datos con **yfinance**, estimación de \(\mu,\sigma,\rho\) d
 ## Estructura del repositorio
 
 - **`Notebooks/`**: notebooks de trabajo en Jupyter. Aquí está el notebook original del *Proyecto Individual* y las versiones con correcciones.
-- **`docs/`**: todo lo generado para Quarto (lo trabajado en el chat), incluyendo el `.qmd` fuente y el `.html` renderizado (más sus assets). Esta carpeta se usa para publicar en GitHub Pages.
+- **`docs/`**: todo lo generado para Quarto, incluyendo el `.qmd` fuente y el `.html` renderizado (más sus assets). Esta carpeta se usa para publicar en GitHub Pages.
 
 ---
 
