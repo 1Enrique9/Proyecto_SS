@@ -116,9 +116,44 @@ TRADING_DAYS = 252  # días hábiles por año
 
 # Descargar datos de Yahoo Finance
 
+Estas funciones centralizan la descarga de precios y el cálculo de retornos.  
+La idea es que **todo lo demás** (estimadores, simulación, LS, binomial) dependa de aquí, para no repetir lógica.
+
+---
+
 ## get_close {#func-get-close}
-**Recibe:** `tickers`, `fecha_inicio`, `fecha_fin`  
-**Hace:** descarga precios de Yahoo Finance y devuelve un `DataFrame` con columnas=tickers.
+
+**Objetivo:** descargar precios de Yahoo Finance y devolver un `DataFrame` con una columna por ticker.
+
+**Recibe:**
+- `tickers` (`str` o `list[str]`): símbolo(s) (ej. `"AAPL"` o `["AAPL","SBUX"]`)
+- `fecha_inicio` (`str`): fecha inicio, formato `"YYYY-MM-DD"`
+- `fecha_fin` (`str`): fecha fin, formato `"YYYY-MM-DD"`
+- `auto_adjust` (`bool`, default `True`):
+  - Si `True`, yfinance ajusta el precio por splits/dividendos (según la lógica de Yahoo/yfinance).
+  - Si `False`, te deja precios sin ajuste
+
+**Que hace:**
+1. Normaliza `tickers` a lista.
+2. Llama a `_download_close_cached(...)`, que:
+   - Descarga datos con `yf.download(...)`.
+   - Maneja los dos formatos de salida típicos:
+     - **MultiIndex** (varios tickers): columnas tipo `("Close", "AAPL")`, etc.
+     - **SingleIndex** (un ticker): columnas simples tipo `"Close"`.
+   - Extrae la serie de `Close` (o `Adj Close` si fuera lo disponible).
+   - Asegura que el resultado final sea un `DataFrame` con columnas = tickers.
+   - Limpia filas totalmente vacías (`dropna(how="all")`).
+3. Valida que todas las columnas pedidas estén presentes:
+   - Si falta algún ticker, lanza error con columnas disponibles.
+4. Devuelve el `DataFrame` únicamente con las columnas solicitadas (en el orden solicitado).
+
+**Devuelve:**
+- `pd.DataFrame` indexado por fecha (trading days), con columnas exactamente `tickers`.
+  - Para un ticker: `DataFrame` de una columna (no `Series`).
+
+**Nota:**
+`_download_close_cached` usa `@lru_cache`, así que si vuelves a pedir **los mismos tickers y mismas fechas**, no vuelve a descargar: reutiliza el resultado en memoria (más rápido y reproducible dentro de la misma sesión).
+
 ```{python}
 
 @lru_cache(maxsize=128)
@@ -176,9 +211,27 @@ def get_close(tickers, fecha_inicio, fecha_fin, auto_adjust=True):
 ```
 
 ## returns_from_close {#func-returns}
-**Recibe:** `close: DataFrame`  
-**Hace:** calcula retornos log o simples.  
-**Devuelve:** `DataFrame` de retornos.
+
+**Objetivo:** calcular retornos a partir de un DataFrame de precios close.
+
+**Recibe:** 
+- `close: DataFrame` :  precios con fechas en el índice y activos en columnas.
+- `kind (str, default "log")`: 
+     "log": retornos logaritmicos $r_t =  log(S_t) - log(S_{t-1})$ 
+     Otro valor:  retornos simples $ r_t =  \frac{S_t}{S_{t-1}} - 1 $
+**Hace:**
+
+1.- Elimina filas con `NaN` en cualquiera de las columnas (dropna(how="any")): Esto fuerza a que todos los activos queden alineados en las mismas fechas.
+
+2.- Calcula retornos: 
+
+- `log` -> ``np.log(close).diff()`
+
+- simple -> `close.pct_change()`
+
+3.-  Elimina el primer renglon(queda `NaN` por la diferencia) y cualquier otro `NaN` residual. 
+
+**Devuelve:** `pd.DataFrame` con retornos(mismo formato de columnas que `close`), ya limpio y alineado.
 
 ```{python}
 def returns_from_close(close: pd.DataFrame, kind="log"):
@@ -611,7 +664,7 @@ Esta función toma la **política de ejercicio** que encontró Longstaff–Schwa
 
 ---
 
-### Recibe
+**Recibe:**
 - `ticker1` (`str`), `fecha_inicio` (`str`), `fecha_fin` (`str`)
 - `num_sims` (`int`): número de simulaciones
 - `dt_days` (`int|float`): tamaño del paso en **días**
@@ -625,7 +678,7 @@ Esta función toma la **política de ejercicio** que encontró Longstaff–Schwa
 
 ---
 
-### Qué hace (paso a paso)
+**Qué hace:**
 1. Llama a `obtiene_estrategia_LS(...)` para obtener:
    - `lista_fechas_ejercicio`: lista con el **primer tiempo** (índice) donde cada trayectoria ejercería, o `-1` si no ejerció.
    - `df`: `DataFrame` con trayectorias simuladas (sin $S_0$), con columnas `"1"... "steps"`.
@@ -658,7 +711,7 @@ Esta función toma la **política de ejercicio** que encontró Longstaff–Schwa
 
 ---
 
-### Devuelve
+**Devuelve:**
 - `[precio, estrategia_ejercicio]` donde:
   - `precio` (`float`) = promedio de los payoffs descontados:
     $$
@@ -724,7 +777,7 @@ con correlación instantánea
 - `returns_kind` (`str`, default `"log"`): retornos para estimar $\mu$ y $\sigma$
 - `seed` (`int|None`): semilla para reproducibilidad
 
-**Qué hace (paso a paso):**
+**Qué hace:**
 1. Descarga precios de ambos activos y calcula retornos diarios alineados:
    - Estima $\mu_{1,daily}, \sigma_{1,daily}, \mu_{2,daily}, \sigma_{2,daily}$.
    - Estima $\rho$ como correlación muestral de retornos.
@@ -895,7 +948,7 @@ La lógica del algoritmo es la misma que en 1 activo: en cada tiempo comparamos 
 
 ---
 
-### Qué hace (paso a paso)
+**Qué hace:**
 1. Construye trayectorias del **portafolio** en un `DataFrame`:
    - Llama a `genera_df_portafolio(...)`
    - Obtiene `df` tamaño `(num_sims, steps)` con columnas `"1"... "steps"`.
@@ -944,7 +997,7 @@ La lógica del algoritmo es la misma que en 1 activo: en cada tiempo comparamos 
 
 ---
 
-### Devuelve
+**Devuelve**
 - `[lst, df]` donde:
   - `df`: trayectorias simuladas del portafolio \(P_t\), tamaño `(num_sims, steps)`.
   - `lst`: lista de listas de índices de trayectorias que ejercen por tiempo (construida hacia atrás).
@@ -1320,7 +1373,7 @@ La idea del código es: tratar al portafolio como si fuera “un solo activo” 
 
 ---
 
-**Qué hace**
+**Qué hace:**
 1. Estima volatilidades diarias de ambos activos y anualiza:
    \[
    \sigma_1 = \sigma_{1,daily}\sqrt{252}, \qquad \sigma_2 = \sigma_{2,daily}\sqrt{252}.
@@ -1378,7 +1431,7 @@ La idea del código es: tratar al portafolio como si fuera “un solo activo” 
 
 ---
 
-### Devuelve
+**Devuelve**
 - `float`: valor aproximado en el nodo inicial \(V_0\) del derivado americano sobre el portafolio.
 
 ```{python}
@@ -1466,7 +1519,7 @@ Esta sección sirve como guia del notebook: fija parámetros, ejecuta las funcio
 
 ## Bloque principal `if __name__ == "__main__":` {#sec-ejemplos}
 
-**Qué define (inputs):**
+**Qué define (Recibe):**
 - `ticker1`, `ticker2`: activos (ej. `"AAPL"`, `"SBUX"`)
 - `fecha_inicio`, `fecha_fin`: ventana histórica para estimar \(\mu\), \(\sigma\) y \(\rho\)
 - `r`: tasa libre de riesgo anual (continua), usada para descuento y para binomial
