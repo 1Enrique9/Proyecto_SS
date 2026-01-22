@@ -1,4 +1,6 @@
-# Finanzas — Valuación de Opciones Americanas (Binomial y Longstaff–Schwartz)
+# Proyecto_SS — Estructura del proyecto
+
+**Finanzas interactivo (HTML):** https://1enrique9.github.io/Proyecto_SS/finanzas_interactivo.html
 
 Proyecto en **Python + Quarto** para valuar **opciones Americanas**:
 - **Árbol binomial** (1 activo y aproximación de portafolio con \(\sigma_P\))
@@ -8,24 +10,42 @@ Incluye descarga de datos con **yfinance**, estimación de \(\mu,\sigma,\rho\) d
 
 ---
 
-## Estructura del proyecto
+## Estructura del repositorio
 
+- **`Notebooks/`**: notebooks de trabajo en Jupyter. Aquí está el notebook original del *Proyecto Individual* y las versiones con correcciones.
+- **`docs/`**: todo lo generado para Quarto (lo trabajado en el chat), incluyendo el `.qmd` fuente y el `.html` renderizado (más sus assets). Esta carpeta se usa para publicar en GitHub Pages.
 
 ---
 
-## Requisitos
-- Python 3.10+ (recomendado)
+## Árbol de carpetas (resumen)
+
+```text
+.
+├─ Notebooks/
+│  ├─ ProyectoIndividual.ipynb      # Notebook original (proyecto individual)
+│  └─ Correcciones2.ipynb           # Notebook con correcciones / refactor sobre el original
+│
+├─ docs/
+│  ├─ finanzas_interactivo.qmd      # Fuente Quarto (texto + código + diagramas)
+│  ├─ finanzas_interactivo.html     # Render HTML (publicado en Pages)
+│  └─ finanzas_interactivo_files/   # Assets generados al renderizar
+│     ├─ figure-html/               # Figuras/salidas de celdas (png)
+│     └─ libs/                      # Librerías estáticas para el HTML (bootstrap/quarto, etc.)
+│
+├─ CNAME                            # Configuración de dominio (GitHub Pages, si aplica)
+└─ README.md                        # Este archivo
+```
+---
+## Requisitos (rápido)
+
+- **Python 3.10+** (recomendado)
 - Paquetes:
   - `numpy`, `pandas`, `matplotlib`
   - `yfinance`
   - `scikit-learn`
-  - `quarto` (si quieres renderizar el `.qmd`)
+- **Quarto** (para renderizar el `.qmd`)
 
-Instalación rápida:
+Instalación de dependencias en Python:
 ```bash
 pip install numpy pandas matplotlib yfinance scikit-learn
 ```
-
-## Ver el sitio 
-
-- Finanzas interactivo: https://1enrique9.github.io/Proyecto_SS/finanzas_interactivo.html
