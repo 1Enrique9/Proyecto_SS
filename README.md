@@ -33,10 +33,10 @@ Incluye descarga de datos con **yfinance**, estimación de \(\mu,\sigma,\rho\) d
 │     └─ libs/                      # Librerías estáticas para el HTML (bootstrap/quarto, etc.)
 │
 ├─ CNAME                            # Configuración de dominio (GitHub Pages, si aplica)
-└─ README.md                        # Este archivo
+└─ README.md                       
 ```
 ---
-## Requisitos (rápido)
+## Requisitos 
 
 - **Python 3.10+** (recomendado)
 - Paquetes:
