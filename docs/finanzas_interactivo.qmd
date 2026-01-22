@@ -10,12 +10,6 @@ format:
 jupyter: python3
 ---
 
-# Finanzas
-
-## Proyecto individual
-
-### Profesor: Eduardo Selim Martínez Mayorga
-
 ## Diagrama de flujo del notebook 
 > Da click en una función para ir a su ficha (inputs → proceso → outputs).
 
