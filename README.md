@@ -17,7 +17,7 @@ Incluye descarga de datos con **yfinance**, estimación de \(\mu,\sigma,\rho\) d
 
 ---
 
-## Árbol de carpetas (resumen)
+## Árbol de carpetas
 
 ```text
 .
