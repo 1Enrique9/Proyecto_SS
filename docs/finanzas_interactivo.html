@@ -6,8 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Eduardo Selim Martínez Mayorga">
-<meta name="dcterms.date" content="2022-05-10">
+<meta name="author" content="Enrique Villalon">
+<meta name="dcterms.date" content="2025-05-10">
 
 <title>Finanzas</title>
 <style>
@@ -182,14 +182,14 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Author</div>
     <div class="quarto-title-meta-contents">
-             <p>Eduardo Selim Martínez Mayorga </p>
+             <p>Enrique Villalon </p>
           </div>
   </div>
     
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">May 10, 2022</p>
+      <p class="date">May 10, 2025</p>
     </div>
   </div>
   
@@ -294,7 +294,7 @@ window.Quarto = {
 </section>
 <section id="librerías" class="level1">
 <h1>Librerías</h1>
-<div id="dc37ac1a" class="cell" data-execution_count="1">
+<div id="11eee108" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -307,7 +307,7 @@ window.Quarto = {
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="bd68e3a0" class="cell" data-execution_count="2">
+<div id="c26b7f2f" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>TRADING_DAYS <span class="op">=</span> <span class="dv">252</span>  <span class="co"># días hábiles por año</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -326,7 +326,7 @@ La idea es que <strong>todo lo demás</strong> (estimadores, simulación, LS, bi
 <p><strong>Que hace:</strong> 1. Normaliza <code>tickers</code> a lista. 2. Llama a <code>_download_close_cached(...)</code>, que: - Descarga datos con <code>yf.download(...)</code>. - Maneja los dos formatos de salida típicos: - <strong>MultiIndex</strong> (varios tickers): columnas tipo <code>("Close", "AAPL")</code>, etc. - <strong>SingleIndex</strong> (un ticker): columnas simples tipo <code>"Close"</code>. - Extrae la serie de <code>Close</code> (o <code>Adj Close</code> si fuera lo disponible). - Asegura que el resultado final sea un <code>DataFrame</code> con columnas = tickers. - Limpia filas totalmente vacías (<code>dropna(how="all")</code>). 3. Valida que todas las columnas pedidas estén presentes: - Si falta algún ticker, lanza error con columnas disponibles. 4. Devuelve el <code>DataFrame</code> únicamente con las columnas solicitadas (en el orden solicitado).</p>
 <p><strong>Devuelve:</strong> - <code>pd.DataFrame</code> indexado por fecha (trading days), con columnas exactamente <code>tickers</code>. - Para un ticker: <code>DataFrame</code> de una columna (no <code>Series</code>).</p>
 <p><strong>Nota:</strong> <code>_download_close_cached</code> usa <code>@lru_cache</code>, así que si vuelves a pedir <strong>los mismos tickers y mismas fechas</strong>, no vuelve a descargar: reutiliza el resultado en memoria (más rápido y reproducible dentro de la misma sesión).</p>
-<div id="88b5a91e" class="cell" data-execution_count="3">
+<div id="74141c26" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="at">@lru_cache</span>(maxsize<span class="op">=</span><span class="dv">128</span>)</span>
@@ -396,7 +396,7 @@ La idea es que <strong>todo lo demás</strong> (estimadores, simulación, LS, bi
 </ul>
 <p>3.- Elimina el primer renglon(queda <code>NaN</code> por la diferencia) y cualquier otro <code>NaN</code> residual.</p>
 <p><strong>Devuelve:</strong> <code>pd.DataFrame</code> con retornos(mismo formato de columnas que <code>close</code>), ya limpio y alineado.</p>
-<div id="84bac048" class="cell" data-execution_count="4">
+<div id="6e351f98" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> returns_from_close(close: pd.DataFrame, kind<span class="op">=</span><span class="st">"log"</span>):</span>
@@ -417,7 +417,7 @@ La idea es que <strong>todo lo demás</strong> (estimadores, simulación, LS, bi
 <p><strong>Recibe:</strong> - <code>ticker</code> (<code>str</code>): símbolo (ej. <code>"AAPL"</code>) - <code>fecha_inicio</code> (<code>str</code>): fecha inicio <code>"YYYY-MM-DD"</code> - <code>fecha_fin</code> (<code>str</code>): fecha fin <code>"YYYY-MM-DD"</code></p>
 <p><strong>Qué hace:</strong> - Descarga la serie de precios de cierre (<code>Close</code> o <code>Adj Close</code>, según <code>get_close</code>) del ticker en el rango de fechas. - Toma el <strong>último valor disponible</strong> de la columna del ticker.</p>
 <p><strong>Devuelve:</strong> - <code>float</code> con el último precio observado: <span class="math inline">\(S_0\)</span>.</p>
-<div id="791a8eca" class="cell" data-execution_count="5">
+<div id="8e8eedf3" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> ultimo_precio(ticker, fecha_inicio, fecha_fin):</span>
@@ -431,7 +431,7 @@ La idea es que <strong>todo lo demás</strong> (estimadores, simulación, LS, bi
 <p><strong>Recibe:</strong> - ticker (str): símbolo (ej. “AAPL”) - <code>fecha_inicio</code> (<code>str</code>): fecha inicio <code>"YYYY-MM-DD"</code> - <code>fecha_fin</code> (<code>str</code>): fecha fin <code>"YYYY-MM-DD"</code> - <code>kind</code> (str, default “log”): tipo de retorno: <code>log</code>: <span class="math inline">\(r_t = \log(P_t) - \log(P_{t-1})\)</span></p>
 <p><strong>Qué hace:</strong> - Descarga precios del activo en el rango. - Construye la serie de retornos diarios con <code>returns_from_close</code>. - Calcula la media muestral de esos retornos.</p>
 <p><strong>Devuelve:</strong> - <code>float</code> con la media diaria: <span class="math inline">\(\mu_{\text{daily}} = \frac{1}{n}\sum_{t=1}^n r_t\)</span>.</p>
-<div id="497d2580" class="cell" data-execution_count="6">
+<div id="b1a8f1de" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calcula_media(ticker, fecha_inicio, fecha_fin, kind<span class="op">=</span><span class="st">"log"</span>):</span>
@@ -446,7 +446,7 @@ La idea es que <strong>todo lo demás</strong> (estimadores, simulación, LS, bi
 <p><strong>Recibe:</strong> - ticker (str): símbolo (ej. “AAPL”) - <code>fecha_inicio</code> (<code>str</code>): fecha inicio <code>"YYYY-MM-DD"</code> - <code>fecha_fin</code> (<code>str</code>): fecha fin <code>"YYYY-MM-DD"</code> - <code>kind</code> (str, default “log”): tipo de retorno: <code>log</code>: <span class="math inline">\(r_t = \log(P_t) - \log(P_{t-1})\)</span> - <code>ddof</code> (int, default 1): grados de libertad para la desviación estándar: ddof=1 → muestral (recomendado para estimación) ddof=0 → “poblacional” (divide entre <span class="math inline">\(n\)</span>)</p>
 <p><strong>Qué hace:</strong> - Descarga precios. - Calcula retornos diarios. - Calcula la desviación estándar de retornos (por default, muestral).</p>
 <p><strong>Devuelve:</strong> - <code>float</code> con la volatilidad diaria estimada: <span class="math inline">\(\sigma_{\text{daily}}\)</span>.</p>
-<div id="ed1db1ec" class="cell" data-execution_count="7">
+<div id="2f392b24" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calcula_desv_est(ticker, fecha_inicio, fecha_fin, kind<span class="op">=</span><span class="st">"log"</span>, ddof<span class="op">=</span><span class="dv">1</span>):</span>
@@ -461,7 +461,7 @@ La idea es que <strong>todo lo demás</strong> (estimadores, simulación, LS, bi
 <p><strong>Recibe:</strong> - ticker (str): símbolo (ej. “AAPL”) - <code>fecha_inicio</code> (<code>str</code>): fecha inicio <code>"YYYY-MM-DD"</code> - <code>fecha_fin</code> (<code>str</code>): fecha fin <code>"YYYY-MM-DD"</code> - <code>kind</code> (str, default “log”): tipo de retorno (log o simple)</p>
 <p><strong>Qué hace:</strong> - Descarga precios de ambos tickers. - Construye retornos diarios alineados por fecha (esto es importante: correlación requiere observaciones pareadas). - Calcula la correlación muestral de Pearson entre las dos series de retornos.</p>
 <p><strong>Devuelve:</strong> - <code>float</code> con la correlación: <span class="math inline">\(\rho \in [-1,1]\)</span>.</p>
-<div id="255bef09" class="cell" data-execution_count="8">
+<div id="e9ef3efb" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calcula_correlacion(ticker1, ticker2, fecha_inicio, fecha_fin, kind<span class="op">=</span><span class="st">"log"</span>):</span>
@@ -474,7 +474,7 @@ La idea es que <strong>todo lo demás</strong> (estimadores, simulación, LS, bi
 </section>
 <section id="payoffs-sin-globals" class="level1">
 <h1>PAYOFFS (sin globals)</h1>
-<div id="3df6f268" class="cell" data-execution_count="9">
+<div id="4b22683e" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> payoff_call(S, K):</span>
@@ -501,7 +501,7 @@ La idea es que <strong>todo lo demás</strong> (estimadores, simulación, LS, bi
 <p><strong>Recibe:</strong> - <code>ticker1</code> (<code>str</code>): símbolo del activo (ej. <code>"AAPL"</code>) - <code>fecha_inicio</code> (<code>str</code>): <code>"YYYY-MM-DD"</code> - <code>fecha_fin</code> (<code>str</code>): <code>"YYYY-MM-DD"</code> - <code>num_sims</code> (<code>int</code>): número de trayectorias simuladas - <code>dt_days</code> (<code>int | float</code>): tamaño del paso en <strong>días</strong> (ej. <code>1</code>) - <code>T_days</code> (<code>int | float</code>): horizonte total en <strong>días</strong> (ej. <code>252/2</code>) - <code>returns_kind</code> (<code>str</code>, default <code>"log"</code>): tipo de retorno usado para estimar <span class="math inline">\(\mu\)</span> y <span class="math inline">\(\sigma\)</span> - <code>seed</code> (<code>int | None</code>): semilla para reproducibilidad</p>
 <p><strong>Qué hace:</strong> 1. Descarga precios con <code>get_close</code>. 2. Calcula retornos diarios con <code>returns_from_close</code>. 3. Estima parámetros históricos: - <span class="math inline">\(\mu_{daily} =\)</span> media diaria de retornos - <span class="math inline">\(\sigma_{daily} =\)</span> desv. estándar diaria (muestral, <code>ddof=1</code>) 4. Convierte a unidades anuales y define el paso en años: - <span class="math inline">\(\Delta t = dt\_days/252\)</span> 5. Genera una matriz de normales <span class="math inline">\(Z\)</span> de tamaño <code>(num_sims, steps)</code> y construye incrementos logarítmicos. 6. Acumula <span class="math inline">\(\log S\)</span> y regresa <span class="math inline">\(S\)</span> en niveles, incluyendo el valor inicial <span class="math inline">\(S_0\)</span>.</p>
 <p><strong>Devuelve:</strong> - <code>numpy.ndarray</code> de tamaño <code>(num_sims, steps+1)</code>: - primera columna = <span class="math inline">\(S_0\)</span> - columnas siguientes = precios simulados en cada paso</p>
-<div id="d81d9ce3" class="cell" data-execution_count="10">
+<div id="db4a04e5" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> genera_simulaciones_individual(</span>
@@ -626,7 +626,7 @@ y el factor de descuento por un paso: $ disc = e^{-rt}. $</p></li>
 </ul></li>
 <li><p>Va guardando en <code>lst</code> los índices que ejercen en cada tiempo (en el orden en que corre hacia atrás).</p></li>
 </ol>
-<div id="459a8dc0" class="cell" data-execution_count="11">
+<div id="9485aa6e" class="cell" data-execution_count="11">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> ejercicio_americana_LS(</span>
@@ -717,7 +717,7 @@ y el factor de descuento por un paso: $ disc = e^{-rt}. $</p></li>
 <pre><code>- `lista_fechas_ejercicio[i]` es el primer tiempo donde la simulación i ejerce (o -1 si no ejerció).
 
 - `df` son las trayectorias simuladas (sin $S_0$).</code></pre>
-<div id="e6a90471" class="cell" data-execution_count="12">
+<div id="dd22a829" class="cell" data-execution_count="12">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> obtiene_estrategia_LS(</span>
@@ -802,7 +802,7 @@ PV_i = g(S_{t_i})\exp(-r \, t_i \Delta t).
     \hat{V}_0 = \frac{1}{N}\sum_{i=1}^N PV_i
     \]</span> - <code>estrategia_ejercicio</code> (<code>list[float]</code>) = lista de índices de ejercicio (o <code>NaN</code> si no ejerció), útil para histograma.</p>
 <hr>
-<div id="d2022084" class="cell" data-execution_count="13">
+<div id="89168825" class="cell" data-execution_count="13">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calcula_precio_americana(</span>
@@ -869,7 +869,7 @@ entonces cada par <span class="math inline">\((EZ_1, EZ_2)\)</span> tiene correl
 <li><p>Construye <span class="math inline">\(S_1, S_2\)</span> acumulando y exponenciando, e inserta la columna inicial <span class="math inline">\(S_0\)</span> al principio.</p></li>
 </ol>
 <p><strong>Devuelve:</strong> - <code>[S1, S2]</code> donde: - <code>S1</code>: <code>np.ndarray</code> de tamaño <code>(num_sims, steps+1)</code> con <span class="math inline">\(S_{0,1}\)</span> incluido. - <code>S2</code>: <code>np.ndarray</code> de tamaño <code>(num_sims, steps+1)</code> con <span class="math inline">\(S_{0,2}\)</span> incluido.</p>
-<div id="07bf3dae" class="cell" data-execution_count="14">
+<div id="94defe58" class="cell" data-execution_count="14">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> genera_simulaciones_correlacionadas(</span>
@@ -941,7 +941,7 @@ entonces cada par <span class="math inline">\((EZ_1, EZ_2)\)</span> tiene correl
 </ul></li>
 </ol>
 <p><strong>Devuelve:</strong> <code>DataFrame (num_sims, steps)</code> con precios del portafolio simulados (sin <span class="math inline">\(P_0\)</span>), columnas <code>"1"... "steps"</code>.</p>
-<div id="a575d95b" class="cell" data-execution_count="15">
+<div id="09985a6a" class="cell" data-execution_count="15">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> genera_df_portafolio(</span>
@@ -1018,7 +1018,7 @@ entonces cada par <span class="math inline">\((EZ_1, EZ_2)\)</span> tiene correl
 </ol>
 <hr>
 <p><strong>Devuelve</strong> - <code>[lst, df]</code> donde: - <code>df</code>: trayectorias simuladas del portafolio (P_t), tamaño <code>(num_sims, steps)</code>. - <code>lst</code>: lista de listas de índices de trayectorias que ejercen por tiempo (construida hacia atrás).</p>
-<div id="a2fa7059" class="cell" data-execution_count="16">
+<div id="122c2798" class="cell" data-execution_count="16">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> ejercicio_americana_LS_port(</span>
@@ -1104,7 +1104,7 @@ entonces cada par <span class="math inline">\((EZ_1, EZ_2)\)</span> tiene correl
 <li><p><code>lista_fechas_ejercicio[i]</code> = tiempo (índice) de ejercicio de la trayectoria <code>i</code> o <code>-1</code>.</p></li>
 <li><p><code>df</code> = trayectorias del portafolio <span class="math inline">\(P_t\)</span> ​</p></li>
 </ul>
-<div id="d87cdf7a" class="cell" data-execution_count="17">
+<div id="c4a556d3" class="cell" data-execution_count="17">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> obtiene_estrategia_LS_port(</span>
@@ -1185,7 +1185,7 @@ entonces cada par <span class="math inline">\((EZ_1, EZ_2)\)</span> tiene correl
 <li><code>estrategia_ejercicio</code> (<code>list[float]</code>) = tiempos de ejercicio (índice) o <code>NaN</code> si no ejerció.</li>
 </ul></li>
 </ul>
-<div id="55e8eb2a" class="cell" data-execution_count="18">
+<div id="58c282d0" class="cell" data-execution_count="18">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calcula_precio_americana_port(</span>
@@ -1249,7 +1249,7 @@ y la convierte a <strong>anual</strong>: [ = </em>{daily}. ]</p>
 </ol>
 <hr>
 <p><strong>Devuelve</strong> - <code>float</code>: valor de la opción en el nodo inicial, (V_0).</p>
-<div id="4b2f17e5" class="cell" data-execution_count="19">
+<div id="8e4916ef" class="cell" data-execution_count="19">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> arbol_americano(ticker, fecha_inicio, fecha_fin, K, T_years, r, N, tipo<span class="op">=</span><span class="st">"put"</span>,</span>
@@ -1306,7 +1306,7 @@ y la convierte a <strong>anual</strong>: [ = </em>{daily}. ]</p>
 </ol>
 <hr>
 <p><strong>Devuelve</strong> - <code>float</code>: valor aproximado en el nodo inicial (V_0) del derivado americano sobre el portafolio.</p>
-<div id="02b876d6" class="cell" data-execution_count="20">
+<div id="96d6abbe" class="cell" data-execution_count="20">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> arbol_americano_portafolio(ticker1, ticker2, w, fecha_inicio, fecha_fin, K, T_years, r, N,</span>
@@ -1353,7 +1353,7 @@ y la convierte a <strong>anual</strong>: [ = </em>{daily}. ]</p>
 <p><strong>Recibe:</strong> - <code>estrategia_ejercicio</code> (<code>list[float]</code> o <code>list[int]</code>): - Lista con el índice de ejercicio por simulación. - Usualmente viene de <code>calcula_precio_americana(...)</code> o <code>calcula_precio_americana_port(...)</code>. - Contiene <code>NaN</code> para trayectorias que <strong>no ejercieron</strong> (eso se hace a propósito para graficar). - <code>T_days</code> (<code>int|float</code>): horizonte total en días (ej. <code>252/2</code>) - <code>titulo</code> (<code>str</code>): título del histograma</p>
 <p><strong>Qué hace:</strong> 1. Convierte la lista a <code>numpy</code> y separa valores válidos: - <code>valid = ej[~np.isnan(ej)]</code> elimina los <code>NaN</code> (trayectorias que no ejercieron). 2. Dibuja el histograma de los índices de ejercicio. 3. En el título muestra cuántas simulaciones no ejercieron.</p>
 <p><strong>Devuelve:</strong> - No devuelve nada (<code>None</code>). Solo <strong>grafica</strong>.</p>
-<div id="70935b63" class="cell" data-execution_count="21">
+<div id="f820de78" class="cell" data-execution_count="21">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_hist_ejercicio(estrategia_ejercicio, T_days, titulo<span class="op">=</span><span class="st">"Histograma ejercicio"</span>):</span>
@@ -1409,7 +1409,7 @@ y la convierte a <strong>anual</strong>: [ = </em>{daily}. ]</p>
 </ol>
 <p><strong>Devuelve:</strong> - Este bloque no “devuelve” como función; produce <strong>salida en consola</strong> (prints) y <strong>gráficas</strong> (histogramas).</p>
 <hr>
-<div id="aefec443" class="cell" data-execution_count="22">
+<div id="d71a7fd1" class="cell" data-execution_count="22">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">"__main__"</span>:</span>
@@ -1469,7 +1469,7 @@ y la convierte a <strong>anual</strong>: [ = </em>{daily}. ]</p>
 <span id="cb23-55"><a href="#cb23-55" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Precio Binomial (port, call):"</span>, precio_bin_port)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>Precio LS (single, put, con mu): 5.78451001337661</code></pre>
+<pre><code>Precio LS (single, put, con mu): 5.784522345616538</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
@@ -1479,7 +1479,7 @@ y la convierte a <strong>anual</strong>: [ = </em>{daily}. ]</p>
 </div>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Precio LS (port, put, con mu): 5.024877914951794</code></pre>
+<pre><code>Precio LS (port, put, con mu): 5.024884028037011</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
@@ -1489,8 +1489,8 @@ y la convierte a <strong>anual</strong>: [ = </em>{daily}. ]</p>
 </div>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Precio Binomial (single, call): 25.408037627775183
-Precio Binomial (port, call): 29.098877991348264</code></pre>
+<pre><code>Precio Binomial (single, call): 25.408032454007703
+Precio Binomial (port, call): 29.098873672859927</code></pre>
 </div>
 </div>
 </section>
